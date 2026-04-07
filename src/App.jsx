@@ -1,35 +1,43 @@
+import React, { Suspense } from 'react'
 import Navbar from './components/Navbar'
 import Hero from './components/Hero'
-import About from './components/About'
-import Skills from './components/Skills'
-import Experience from './components/Experience'
-import Projects from './components/Projects'
-import Education from './components/Education'
-import Contact from './components/Contact'
-import Footer from './components/Footer'
+import ThemeSwitcher from './components/ThemeSwitcher'
+import ParticleBackground from './components/ParticleBackground'
+
+// Lazy load heavy components below the fold
+const About = React.lazy(() => import('./components/About'))
+const Skills = React.lazy(() => import('./components/Skills'))
+const Work = React.lazy(() => import('./components/Work'))
+const Journey = React.lazy(() => import('./components/Journey'))
+const Blogs = React.lazy(() => import('./components/Blogs'))
+const Contact = React.lazy(() => import('./components/Contact'))
+
+// Fallback component for Suspense
+const SectionLoader = () => (
+  <div className="flex items-center justify-center py-20 min-h-[300px]">
+    <div className="w-8 h-8 max-w-full max-h-full border-2 border-[var(--color-accent)] border-t-transparent rounded-full animate-spin aspect-square"></div>
+  </div>
+)
 
 function App() {
   return (
-    <div className="min-h-screen bg-[#0a0a0a] text-white selection:bg-blue-500/30">
+    <div className="min-h-screen bg-background text-foreground transition-colors duration-500">
+      <ParticleBackground />
       <Navbar />
       
-      <main>
+      <main className="relative z-10 flex flex-col gap-10 lg:gap-20 pb-20">
         <Hero />
-        {/* <About />
-        <Skills />
-        <Experience />
-        <Projects />
-        <Education />
-        <Contact /> */}
+        <Suspense fallback={<SectionLoader />}>
+          <About />
+          <Skills />
+          <Work />
+          <Journey />
+          <Blogs />
+          <Contact />
+        </Suspense>
       </main>
 
-      {/* <Footer /> */}
-
-      {/* Background decoration */}
-      <div className="fixed inset-0 z-[-1] pointer-events-none overflow-hidden">
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[100vw] h-[100vh] bg-[radial-gradient(circle_at_center,rgba(59,130,246,0.03)_0%,transparent_70%)]"></div>
-        <div className="absolute top-0 left-0 w-full h-full bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-[0.03] mix-blend-overlay"></div>
-      </div>
+      <ThemeSwitcher />
     </div>
   )
 }

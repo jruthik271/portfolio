@@ -17,13 +17,14 @@ const Navbar = () => {
   const navLinks = [
     { name: 'About', href: '#about' },
     { name: 'Skills', href: '#skills' },
-    { name: 'Experience', href: '#experience' },
-    { name: 'Projects', href: '#projects' },
+    { name: 'Work', href: '#work' },
+    { name: 'Journey', href: '#journey' },
+    { name: 'Blogs', href: '#blogs' },
     { name: 'Contact', href: '#contact' },
   ]
 
   return (
-    <nav className={`fixed top-0 w-full z-50 transition-all duration-300 ${scrolled ? 'bg-black/70 backdrop-blur-lg border-b border-white/10 py-3' : 'bg-transparent py-5'}`}>
+    <nav className={`fixed top-0 w-full z-50 transition-all duration-300 ${scrolled ? 'bg-background/70 backdrop-blur-md border-b border-white/10 py-3 shadow-[0_4px_30px_rgba(0,0,0,0.1)]' : 'bg-transparent py-5'}`}>
       <div className="max-w-7xl mx-auto px-6 flex justify-between items-center">
         <motion.a 
           href="#"
@@ -31,7 +32,7 @@ const Navbar = () => {
           animate={{ opacity: 1, x: 0 }}
           className="text-2xl font-black tracking-tighter"
         >
-          SUMANTH<span className="text-blue-500">.</span>
+          SUMANTH<span className="text-[var(--color-accent)]">.</span>
         </motion.a>
 
         {/* Desktop Links */}
@@ -42,20 +43,20 @@ const Navbar = () => {
               href={link.href}
               initial={{ opacity: 0, y: -10 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: i * 0.1 }}
-              className="text-sm font-medium text-gray-400 hover:text-white transition-colors relative group"
+              className="text-sm font-medium text-foreground/70 hover:text-foreground transition-colors relative group"
             >
               {link.name}
-              <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-blue-500 transition-all group-hover:w-full"></span>
+              <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-[var(--color-accent)] transition-all group-hover:w-full"></span>
             </motion.a>
           ))}
           <motion.a
             href="#contact"
             initial={{ opacity: 0, scale: 0.8 }}
             animate={{ opacity: 1, scale: 1 }}
-            className="bg-white text-black px-5 py-2 rounded-full text-sm font-bold hover:bg-blue-500 hover:text-white transition-all"
+            className="relative overflow-hidden bg-white text-black px-5 py-2 rounded-full text-sm font-bold transition-all shadow-[0_0_20px_rgba(255,255,255,0.1)] group hover:text-white"
           >
-            Hire Me
+            <span className="relative z-10 transition-colors group-hover:text-white">Hire Me</span>
+            <span className="absolute inset-0 w-full h-full bg-[var(--color-accent)] opacity-0 group-hover:opacity-100 transition-opacity z-0"></span>
           </motion.a>
         </div>
 
@@ -72,7 +73,7 @@ const Navbar = () => {
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
-            className="md:hidden bg-black/95 border-b border-white/10 overflow-hidden"
+            className="md:hidden bg-background/95 backdrop-blur-xl border-b border-white/10 overflow-hidden"
           >
             <div className="flex flex-col p-6 space-y-4">
               {navLinks.map((link) => (
@@ -80,7 +81,7 @@ const Navbar = () => {
                   key={link.name}
                   href={link.href}
                   onClick={() => setIsOpen(false)}
-                  className="text-lg font-medium text-gray-400 hover:text-white"
+                  className="text-lg font-medium text-foreground/70 hover:text-foreground"
                 >
                   {link.name}
                 </a>

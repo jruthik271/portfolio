@@ -7,15 +7,19 @@ export default {
   theme: {
     extend: {
       colors: {
-        background: "#0a0a0a",
-        foreground: "#ededed",
-        primary: "#3b82f6",
-        secondary: "#a855f7",
+        background: "var(--color-bg)",
+        foreground: "var(--color-fg)",
+        card: "var(--color-card)",
+        border: "var(--color-border)",
+        accent: "var(--color-accent)",
       },
       backgroundImage: {
         'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
         'gradient-conic': 'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
       },
+      fontFamily: {
+        sans: ['Inter', 'sans-serif'],
+      }
     },
   },
   plugins: [],

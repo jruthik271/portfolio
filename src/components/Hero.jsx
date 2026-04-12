@@ -70,7 +70,7 @@ export default function Hero() {
               EXPLORE PROFILE <ArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" />
             </span>
           </a>
-          <a href="/resume.pdf" target="_blank" rel="noopener noreferrer" className="group w-full sm:w-auto rounded-full bg-card border border-border text-foreground px-8 py-4 font-bold tracking-widest text-sm transition-all hover:bg-card-hover flex items-center justify-center">
+          <a href="http://localhost:5000/api/resume/download" target="_blank" rel="noopener noreferrer" className="group w-full sm:w-auto rounded-full bg-card border border-border text-foreground px-8 py-4 font-bold tracking-widest text-sm transition-all hover:bg-card-hover flex items-center justify-center">
             DOWNLOAD CV <Download className="ml-2 w-4 h-4 group-hover:-translate-y-1 transition-transform" />
           </a>
         </motion.div>

@@ -1,5 +1,6 @@
+import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { Smartphone, Layers, Wrench } from 'lucide-react';
+import { Smartphone, Layers, Wrench, Github, Star, GitFork } from 'lucide-react';
 
 const PROJECTS = [
   {
@@ -29,6 +30,26 @@ const PROJECTS = [
 ];
 
 export default function Work() {
+  const [githubRepos, setGithubRepos] = useState([]);
+  const [loadingRepos, setLoadingRepos] = useState(true);
+
+  useEffect(() => {
+    const fetchRepos = async () => {
+      try {
+        const res = await fetch('http://localhost:5000/api/github/repos');
+        if (res.ok) {
+          const data = await res.json();
+          setGithubRepos(data);
+        }
+      } catch (error) {
+        console.error("Failed to fetch Github Repos", error);
+      } finally {
+        setLoadingRepos(false);
+      }
+    };
+    fetchRepos();
+  }, []);
+
   return (
     <section id="work" className="py-20 relative">
       <div className="max-w-7xl mx-auto px-6">
@@ -42,7 +63,7 @@ export default function Work() {
           <p className="text-foreground/60 max-w-2xl text-lg">Explore my highlighted mobile and full-stack applications.</p>
         </motion.div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-20">
           {PROJECTS.map((hub, idx) => {
             const Icon = hub.icon;
             return (
@@ -71,6 +92,40 @@ export default function Work() {
             );
           })}
         </div>
+
+        {/* GitHub Repositories Section */}
+        {(!loadingRepos && githubRepos.length > 0) && (
+           <motion.div
+             initial={{ opacity: 0, y: 20 }}
+             whileInView={{ opacity: 1, y: 0 }}
+             viewport={{ once: true }}
+           >
+             <h3 className="text-2xl md:text-3xl font-black mb-6 uppercase tracking-tight flex items-center">
+               <Github className="mr-3 text-[var(--color-accent)]" size={32} />
+               Latest Open <span className="text-[var(--color-accent)] ml-2">Source</span>
+             </h3>
+             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+               {githubRepos.map((repo, idx) => (
+                 <a 
+                   href={repo.html_url} 
+                   target="_blank" 
+                   rel="noreferrer"
+                   key={repo._id}
+                   className="bg-background border border-border p-6 rounded-2xl group hover:border-[var(--color-accent)] transition-all hover:-translate-y-2 relative"
+                 >
+                   <h4 className="font-bold text-lg mb-2 text-[var(--color-accent)]">{repo.name}</h4>
+                   <p className="text-foreground/70 text-sm mb-6 line-clamp-3 min-h-[60px]">{repo.description || "No description provided."}</p>
+                   
+                   <div className="flex items-center justify-between text-foreground/50 text-xs font-bold w-full uppercase mt-auto">
+                     <span className="flex items-center"><Star size={14} className="mr-1" /> {repo.stargazers_count}</span>
+                     <span className="flex items-center"><GitFork size={14} className="mr-1" /> {repo.forks_count}</span>
+                     <span>{repo.language || 'Code'}</span>
+                   </div>
+                 </a>
+               ))}
+             </div>
+           </motion.div>
+        )}
       </div>
     </section>
   );

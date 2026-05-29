@@ -77,7 +77,7 @@ export interface PortfolioConfig {
 export const portfolioConfig: PortfolioConfig = {
   personal: {
     name: "Sumanth",
-    fullName: "Jallipalli R P G Sumanth",
+    fullName: "Jallipalli Sumanth",
     role: "AI/ML & Flutter Dev",
     subRole: "AI / ML Undergraduate",
     bio: "AI Machine Learning undergraduate skilled in Flutter, Python, AI agents, and full-stack development with experience building real-time and AI-powered applications. Seeking a Software Engineering Internship to contribute to scalable and impactful engineering solutions.",

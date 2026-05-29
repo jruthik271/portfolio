@@ -1,73 +1,11 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Github, Linkedin, Mail, Download, ArrowRight, BookOpen, Cpu, Award, Milestone, Copy, Check } from 'lucide-react';
+import { Github, Linkedin, Mail, Download, ArrowRight, Copy, Check } from 'lucide-react';
 import { portfolioConfig } from '../config/portfolio';
 import MagneticButton from './MagneticButton';
 
-interface APIStats {
-  githubRepos: number;
-  leetcodeSolved: number;
-  leetcodeRank: string;
-  downloadsCount: number;
-}
-
 export default function Hero() {
-  const [stats, setStats] = useState<APIStats>({
-    githubRepos: 6,
-    leetcodeSolved: 154,
-    leetcodeRank: '185k',
-    downloadsCount: 0
-  });
-  const [loading, setLoading] = useState(true);
   const [copied, setCopied] = useState(false);
-
-  useEffect(() => {
-    const fetchStats = async () => {
-      try {
-        const [githubRes, leetcodeRes, resumeRes] = await Promise.all([
-          fetch('http://localhost:5000/api/github/repos'),
-          fetch('http://localhost:5000/api/leetcode/stats'),
-          fetch('http://localhost:5000/api/resume/stats')
-        ]);
-
-        let repoCount = 6;
-        let solved = 154;
-        let rank = '185k';
-        let downloads = 0;
-
-        if (githubRes.ok) {
-          const repos = await githubRes.json();
-          if (Array.isArray(repos)) repoCount = repos.length;
-        }
-
-        if (leetcodeRes.ok) {
-          const leetcode = await leetcodeRes.json();
-          if (leetcode.solvedTotal) solved = leetcode.solvedTotal;
-          if (leetcode.globalRank) {
-            rank = leetcode.globalRank > 1000 ? `${Math.round(leetcode.globalRank / 1000)}k` : leetcode.globalRank.toString();
-          }
-        }
-
-        if (resumeRes.ok) {
-          const resume = await resumeRes.json();
-          if (resume.count !== undefined) downloads = resume.count;
-        }
-
-        setStats({
-          githubRepos: repoCount,
-          leetcodeSolved: solved,
-          leetcodeRank: rank,
-          downloadsCount: downloads
-        });
-      } catch (err) {
-        console.warn('Failed to fetch real-time dashboard counters, using local cache presets:', err);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchStats();
-  }, []);
 
   const handleCopyEmail = () => {
     navigator.clipboard.writeText(portfolioConfig.socials.email);
@@ -75,15 +13,8 @@ export default function Hero() {
     setTimeout(() => setCopied(false), 2000);
   };
 
-  const statsItems = [
-    { label: 'GPA Metric', value: portfolioConfig.education[0].gpa.split(' ')[0], icon: Award },
-    { label: 'GitHub Repos', value: loading ? '6+' : `${stats.githubRepos} Active`, icon: Cpu },
-    { label: 'LeetCode Solved', value: loading ? '150+' : stats.leetcodeSolved.toString(), icon: BookOpen },
-    { label: 'Internship', value: '1 Month', icon: Milestone }
-  ];
-
   return (
-    <section id="hero" className="min-h-screen flex items-center justify-center pt-28 pb-16 relative overflow-hidden bg-background">
+    <section id="home" className="min-h-screen flex items-center justify-center pt-28 pb-16 relative overflow-hidden bg-background">
       {/* Background Glow Shaders */}
       <div className="absolute top-[20%] left-[10%] w-[500px] h-[500px] bg-[var(--color-accent)]/5 blur-[130px] rounded-full pointer-events-none"></div>
       <div className="absolute bottom-[20%] right-[10%] w-[500px] h-[500px] bg-blue-500/5 blur-[150px] rounded-full pointer-events-none"></div>
@@ -271,35 +202,6 @@ export default function Hero() {
           </div>
 
         </div>
-
-        {/* Dashboard numerical metrics counters */}
-        <motion.div 
-          className="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6 max-w-7xl mx-auto border-t border-border/60 pt-16 mt-16"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.4, duration: 1 }}
-        >
-          {statsItems.map((stat, i) => {
-            const Icon = stat.icon;
-            return (
-              <div
-                key={i}
-                className="bg-card/35 border border-border/50 rounded-2xl p-5 text-center group hover:border-[var(--color-accent)]/30 hover:bg-card-hover transition-all duration-300 relative overflow-hidden backdrop-blur-sm"
-              >
-                <div className="absolute top-0 right-0 w-16 h-16 bg-[var(--color-accent)]/5 blur-2xl rounded-full opacity-0 group-hover:opacity-100 transition-opacity"></div>
-                <div className="flex justify-center mb-2 text-foreground/45 group-hover:text-[var(--color-accent)] transition-colors">
-                  <Icon size={18} />
-                </div>
-                <h4 className="text-xl sm:text-2xl font-black text-white mb-0.5 group-hover:scale-105 transition-transform duration-300">
-                  {stat.value}
-                </h4>
-                <p className="text-[10px] text-foreground/50 font-black tracking-wider uppercase">
-                  {stat.label}
-                </p>
-              </div>
-            );
-          })}
-        </motion.div>
 
       </div>
     </section>

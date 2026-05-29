@@ -7,15 +7,15 @@ import MagneticButton from './MagneticButton';
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
-  const [activeSection, setActiveSection] = useState('hero');
+  const [activeSection, setActiveSection] = useState('home');
 
   useEffect(() => {
     const handleScroll = () => {
       setScrolled(window.scrollY > 40);
 
       // Track active section on scroll
-      const sections = ['about', 'skills', 'work', 'journey', 'blogs', 'contact'];
-      let currentSection = 'hero';
+      const sections = ['home', 'about', 'skills', 'work', 'journey', 'blogs', 'contact'];
+      let currentSection = 'home';
       for (const section of sections) {
         const el = document.getElementById(section);
         if (el) {
@@ -34,6 +34,7 @@ export default function Navbar() {
   }, []);
 
   const navLinks = [
+    { name: 'Home', href: '#home', id: 'home' },
     { name: 'About', href: '#about', id: 'about' },
     { name: 'Skills', href: '#skills', id: 'skills' },
     { name: 'Projects', href: '#work', id: 'work' },

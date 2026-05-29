@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Terminal, Code2, Globe, Database, ArrowUpRight } from 'lucide-react';
+import { Terminal, Code2, Globe, Database, ArrowUpRight, Award, Milestone } from 'lucide-react';
 import { portfolioConfig } from '../config/portfolio';
 
 interface LeetcodeStatsAPI {
@@ -17,22 +17,55 @@ export default function Journey() {
   const [leetcodeData, setLeetcodeData] = useState<LeetcodeStatsAPI | null>(null);
   const [activeTab, setActiveTab] = useState('leetcode');
   const [loading, setLoading] = useState(true);
+  const [stats, setStats] = useState({
+    githubRepos: 6,
+    leetcodeSolved: 154,
+    downloadsCount: 0
+  });
 
   useEffect(() => {
-    const fetchLeetcodeStats = async () => {
+    const fetchAllStats = async () => {
       try {
-        const res = await fetch('http://localhost:5000/api/leetcode/stats');
-        if (res.ok) {
-          const data = await res.json();
-          setLeetcodeData(data);
+        const [leetcodeRes, githubRes, resumeRes] = await Promise.all([
+          fetch('http://localhost:5000/api/leetcode/stats'),
+          fetch('http://localhost:5000/api/github/repos'),
+          fetch('http://localhost:5000/api/resume/stats')
+        ]);
+
+        let solved = 154;
+        let repoCount = 6;
+        let downloads = 0;
+
+        if (leetcodeRes.ok) {
+          const leetcode = await leetcodeRes.json();
+          if (leetcode && leetcode.solvedTotal) {
+            solved = leetcode.solvedTotal;
+            setLeetcodeData(leetcode);
+          }
         }
+
+        if (githubRes.ok) {
+          const repos = await githubRes.json();
+          if (Array.isArray(repos)) repoCount = repos.length;
+        }
+
+        if (resumeRes.ok) {
+          const resume = await resumeRes.json();
+          if (resume.count !== undefined) downloads = resume.count;
+        }
+
+        setStats({
+          githubRepos: repoCount,
+          leetcodeSolved: solved,
+          downloadsCount: downloads
+        });
       } catch (err) {
-        console.warn('Failed to fetch leetcode stats from API:', err);
+        console.warn('Failed to fetch stats for Journey dashboard:', err);
       } finally {
         setLoading(false);
       }
     };
-    fetchLeetcodeStats();
+    fetchAllStats();
   }, []);
 
   const platforms = [
@@ -40,6 +73,13 @@ export default function Journey() {
     { id: 'github', name: 'GitHub', icon: Globe, profile: 'jruthik271', link: portfolioConfig.socials.github },
     { id: 'codechef', name: 'CodeChef', icon: Terminal, profile: 'jruthik271', link: portfolioConfig.socials.codechef },
     { id: 'hackerrank', name: 'HackerRank', icon: Database, profile: 'jruthik271', link: portfolioConfig.socials.hackerrank },
+  ];
+
+  const statsItems = [
+    { label: 'GPA Metric', value: portfolioConfig.education[0].gpa.split(' ')[0], icon: Award },
+    { label: 'GitHub Repos', value: loading ? '6+' : `${stats.githubRepos} Active`, icon: Globe },
+    { label: 'LeetCode Solved', value: loading ? '150+' : stats.leetcodeSolved.toString(), icon: Code2 },
+    { label: 'Internship', value: '1 Month', icon: Milestone }
   ];
 
   const currentPlatform = platforms.find(p => p.id === activeTab) || platforms[0];
@@ -65,6 +105,36 @@ export default function Journey() {
           <p className="text-foreground/50 max-w-2xl text-base sm:text-lg font-medium">
             My active open-source footprints, problem-solving stats, and competitive profiles.
           </p>
+        </motion.div>
+
+        {/* Dynamic Key Performance Stats Dashboard Panel */}
+        <motion.div 
+          className="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6 max-w-7xl mx-auto border-t border-b border-border/60 py-10 mb-12"
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+          transition={{ duration: 1 }}
+        >
+          {statsItems.map((stat, i) => {
+            const Icon = stat.icon;
+            return (
+              <div
+                key={i}
+                className="bg-card/35 border border-border/50 rounded-2xl p-5 text-center group hover:border-[var(--color-accent)]/30 hover:bg-card-hover transition-all duration-300 relative overflow-hidden backdrop-blur-sm"
+              >
+                <div className="absolute top-0 right-0 w-16 h-16 bg-[var(--color-accent)]/5 blur-2xl rounded-full opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                <div className="flex justify-center mb-2 text-foreground/45 group-hover:text-[var(--color-accent)] transition-colors">
+                  <Icon size={18} />
+                </div>
+                <h4 className="text-xl sm:text-2xl font-black text-white mb-0.5 group-hover:scale-105 transition-transform duration-300">
+                  {stat.value}
+                </h4>
+                <p className="text-[10px] text-foreground/50 font-black tracking-wider uppercase">
+                  {stat.label}
+                </p>
+              </div>
+            );
+          })}
         </motion.div>
 
         {/* Sidebar Dock Container */}
@@ -181,7 +251,7 @@ export default function Journey() {
                     </>
                   )}
 
-                  {/* Fallback Competitive Platforms */}
+                  {/* Fallback Platforms */}
                   {activeTab !== 'leetcode' && activeTab !== 'github' && (
                     <>
                       <div className="bg-background/45 border border-border/60 rounded-2xl p-6 text-center shadow-inner relative overflow-hidden group">

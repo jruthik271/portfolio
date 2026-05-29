@@ -2,7 +2,13 @@ import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Palette, X } from 'lucide-react';
 
-const themes = [
+export interface ThemeOption {
+  id: string;
+  label: string;
+  color: string;
+}
+
+export const themes: ThemeOption[] = [
   { id: 'violet', label: 'Midnight Violet', color: '#a855f7' },
   { id: 'crimson', label: 'Crimson Night', color: '#ef4444' },
   { id: 'sunset', label: 'Ocean Sunset', color: '#f97316' },
@@ -24,42 +30,48 @@ export default function ThemeSwitcher() {
     setTheme(savedTheme);
   }, []);
 
-  const setTheme = (themeId) => {
+  const setTheme = (themeId: string) => {
     setCurrentTheme(themeId);
     document.documentElement.setAttribute('data-theme', themeId);
     localStorage.setItem('portfolio-theme', themeId);
   };
 
   return (
-    <div className="fixed bottom-6 left-6 z-50">
+    <div className="fixed bottom-6 left-6 z-40">
       <AnimatePresence>
         {isOpen && (
           <motion.div
             initial={{ opacity: 0, y: 20, scale: 0.9 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 20, scale: 0.9 }}
-            className="absolute bottom-16 left-0 bg-background/95 backdrop-blur-xl border border-border p-4 rounded-2xl shadow-xl w-64 max-h-[60vh] overflow-y-auto"
+            transition={{ type: 'spring', stiffness: 300, damping: 25 }}
+            className="absolute bottom-16 left-0 bg-background/85 backdrop-blur-xl border border-border p-5 rounded-3xl shadow-[0_10px_50px_rgba(0,0,0,0.4)] w-72 max-h-[60vh] overflow-y-auto"
           >
-            <div className="flex justify-between items-center mb-4">
-              <h3 className="text-sm font-semibold text-foreground">Theme Settings</h3>
-              <button onClick={() => setIsOpen(false)} className="text-foreground/50 hover:text-foreground">
+            <div className="flex justify-between items-center mb-4 border-b border-border pb-2">
+              <h3 className="text-sm font-black tracking-widest uppercase text-foreground">Theme Settings</h3>
+              <button
+                onClick={() => setIsOpen(false)}
+                className="text-foreground/50 hover:text-foreground p-1 hover:bg-card rounded-lg transition-colors"
+              >
                 <X size={16} />
               </button>
             </div>
-            <div className="space-y-3">
+            <div className="space-y-2">
               {themes.map((theme) => (
                 <button
                   key={theme.id}
                   onClick={() => setTheme(theme.id)}
-                  className={`w-full flex items-center p-2 rounded-lg transition-colors ${
-                    currentTheme === theme.id ? 'bg-card-hover' : 'hover:bg-card hover:border-[rgba(255,255,255,0.05)] border border-transparent'
+                  className={`w-full flex items-center p-3 rounded-2xl transition-all duration-300 border ${
+                    currentTheme === theme.id
+                      ? 'bg-[var(--color-accent)]/10 border-[var(--color-accent)] text-white'
+                      : 'hover:bg-card border-transparent text-foreground/75 hover:text-foreground'
                   }`}
                 >
                   <span
-                    className="w-5 h-5 rounded-full mr-3 shadow-sm"
+                    className="w-4 h-4 rounded-full mr-4 shadow-[0_0_10px_rgba(0,0,0,0.5)] border border-white/20 shrink-0"
                     style={{ backgroundColor: theme.color }}
                   ></span>
-                  <span className="text-sm text-foreground/80">{theme.label}</span>
+                  <span className="text-xs font-bold tracking-wider">{theme.label}</span>
                 </button>
               ))}
             </div>
@@ -71,10 +83,11 @@ export default function ThemeSwitcher() {
         whileHover={{ scale: 1.05 }}
         whileTap={{ scale: 0.95 }}
         onClick={() => setIsOpen(!isOpen)}
-        className="w-12 h-12 bg-card border border-border backdrop-blur-md rounded-full flex items-center justify-center text-foreground hover:bg-card-hover transition-colors shadow-lg group relative overflow-hidden"
+        className="w-14 h-14 bg-card/85 border border-border backdrop-blur-xl rounded-full flex items-center justify-center text-foreground hover:bg-card-hover transition-all shadow-[0_4px_30px_rgba(0,0,0,0.2)] group relative overflow-hidden"
+        style={{ boxShadow: `0px 0px 20px rgba(var(--color-accent), 0.1)` }}
       >
-        <span className="absolute inset-0 w-full h-full bg-[var(--color-accent)] opacity-0 group-hover:opacity-20 transition-opacity"></span>
-        <Palette size={20} className="relative z-10 text-[var(--color-accent)]" />
+        <span className="absolute inset-0 w-full h-full bg-[var(--color-accent)] opacity-0 group-hover:opacity-10 transition-opacity"></span>
+        <Palette size={20} className="relative z-10 text-[var(--color-accent)] animate-pulse" />
       </motion.button>
     </div>
   );

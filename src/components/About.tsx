@@ -1,208 +1,201 @@
-import { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { GraduationCap, Briefcase, Award, ArrowUpRight, Compass } from 'lucide-react';
+import { motion } from 'framer-motion';
+import { Compass, Globe, Rocket, CheckCircle, Terminal, Github, Linkedin } from 'lucide-react';
 import { portfolioConfig } from '../config/portfolio';
-
-const TABS = ['Experience', 'Education', 'Certifications'] as const;
-type TabType = typeof TABS[number];
+import { Link } from 'react-router-dom';
 
 export default function About() {
-  const [activeTab, setActiveTab] = useState<TabType>('Experience');
+  const techStack = [
+    'React', 'Next.js', 'Node.js', 'Python', 'Java', 
+    'TypeScript', 'Flutter', 'Dart', 'MongoDB', 'MySQL', 'Git'
+  ];
 
   return (
-    <section id="about" className="py-24 relative overflow-hidden">
-      {/* Visual background splash */}
-      <div className="absolute top-[30%] right-[-10%] w-80 h-80 bg-[var(--color-accent)]/5 blur-[100px] rounded-full pointer-events-none"></div>
+    <section id="about" className="py-24 relative overflow-hidden bg-background">
+      {/* Background soft glow shader */}
+      <div className="absolute top-[30%] right-[-10%] w-96 h-96 bg-[var(--color-accent)]/5 blur-[120px] rounded-full pointer-events-none"></div>
 
       <div className="max-w-7xl mx-auto px-6">
-        <div className="flex flex-col lg:flex-row gap-16">
+        <div className="flex flex-col lg:flex-row gap-16 items-center">
           
-          {/* Brand/Narrative Left Column */}
-          <div className="lg:w-[40%] flex flex-col justify-center">
+          {/* Left Column: Picture frame with floating stats cards (Matching Picture 2) */}
+          <div className="w-full lg:w-[45%] flex justify-center relative">
+            
+            {/* Top Subtitle Button (Matching Picture 2) */}
+            <div className="absolute -top-10 left-4 z-20">
+              <span className="px-4 py-1.5 border border-[var(--color-accent)]/30 bg-[var(--color-accent)]/5 rounded-full text-[10px] font-black tracking-widest uppercase text-[var(--color-accent)] flex items-center gap-1.5 shadow-[0_0_15px_rgba(168,85,247,0.15)]">
+                <Compass size={12} className="animate-spin-slow" /> About Me
+              </span>
+            </div>
+
+            {/* Main Portrait Card Layout */}
             <motion.div
               initial={{ opacity: 0, x: -30 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.8 }}
+              transition={{ duration: 0.8, type: 'spring' }}
+              className="relative w-full max-w-[380px] rounded-[32px] border border-white/10 bg-white/[0.02] p-4 shadow-2xl backdrop-blur-md group overflow-hidden"
             >
-              <h2 className="text-3xl sm:text-5xl font-black mb-6 uppercase tracking-tight leading-none">
-                Behind The <span className="text-[var(--color-accent)]">Code</span>
-              </h2>
-              
-              {/* Premium Card Display */}
-              <div className="aspect-square w-full max-w-[360px] rounded-3xl overflow-hidden bg-card border border-border p-8 mb-8 shadow-2xl relative group flex items-center justify-center">
+              <div className="relative aspect-[3/4] w-full rounded-[24px] overflow-hidden bg-background border border-border flex items-center justify-center">
                 <img
-                  src="https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&w=800&q=80"
+                  src={`${import.meta.env.BASE_URL}avatar.png`}
+                  onError={(e) => {
+                    e.currentTarget.style.display = 'none';
+                    const parent = e.currentTarget.parentElement;
+                    if (parent) {
+                      const fb = parent.querySelector('.avatar-fallback');
+                      if (fb) fb.classList.remove('hidden');
+                    }
+                  }}
                   alt="Sumanth's Setup"
                   loading="lazy"
-                  className="absolute inset-0 w-full h-full object-cover opacity-10 group-hover:opacity-20 transition-opacity duration-500"
+                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
                 />
-                <div className="absolute inset-0 bg-gradient-to-tr from-[var(--color-accent)]/20 via-transparent to-transparent opacity-100 group-hover:opacity-0 transition-opacity duration-500 z-10"></div>
-                
-                <div className="text-center relative z-20">
-                  <div className="w-16 h-16 rounded-2xl bg-background/80 border border-border/80 text-[var(--color-accent)] flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform duration-300">
-                    <Compass size={28} className="animate-spin-slow" />
-                  </div>
-                  <h3 className="text-2xl font-black tracking-widest text-white uppercase font-mono mb-1">
-                    &lt;{portfolioConfig.personal.name}&gt;
-                  </h3>
-                  <p className="text-[10px] text-[var(--color-accent)] font-black tracking-widest uppercase">
-                    {portfolioConfig.personal.subRole}
+
+                {/* SVG avatar fallback */}
+                <div className="avatar-fallback hidden flex flex-col items-center justify-center p-6 text-center h-full w-full bg-gradient-to-tr from-[var(--color-accent)]/10 to-blue-500/10 text-[var(--color-accent)]">
+                  <svg className="w-16 h-16 opacity-50 mb-3 animate-pulse" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+                    <path d="M12 14a5 5 0 100-10 5 5 0 000 10zM12 17c-4.418 0-8 2.239-8 5v1h16v-1c0-2.761-3.582-5-8-5z" strokeLinecap="round" strokeLinejoin="round" />
+                  </svg>
+                  <span className="text-[10px] font-black tracking-widest uppercase text-white/50">J. Sumanth</span>
+                  <span className="text-[8px] text-[var(--color-accent)] font-bold mt-1 uppercase tracking-widest font-mono">&lt;AI/ML & DEV&gt;</span>
+                </div>
+
+                {/* Bottom details tag overlay on photo (Matching Picture 2) */}
+                <div className="absolute bottom-4 left-4 right-4 bg-background/85 border border-border/80 p-4 rounded-2xl backdrop-blur-xl z-20 shadow-xl">
+                  <h4 className="text-xs font-black text-white uppercase tracking-wider">{portfolioConfig.personal.fullName}</h4>
+                  <p className="text-[9px] text-[var(--color-accent)] font-black uppercase tracking-widest mt-0.5">
+                    {portfolioConfig.personal.subRole} & Dev
+                  </p>
+                  <p className="text-[8px] text-foreground/45 font-bold uppercase tracking-wider mt-1.5 flex items-center gap-1">
+                    <Globe size={10} /> Andhra Pradesh, India
                   </p>
                 </div>
               </div>
 
-              <p className="text-foreground/60 text-base sm:text-lg leading-relaxed mb-6 font-medium">
-                I am a dedicated Artificial Intelligence and Machine Learning undergraduate. I have strong core foundations in AI architectures, Machine Learning, and algorithms, while enjoying fullstack app development using Flutter and server frameworks.
-              </p>
+              {/* Floating Badges Overlay (Matching Picture 2 - Vertical Stack on the Right) */}
+              <div className="absolute top-8 -right-12 sm:-right-16 flex flex-col gap-3 z-30 pointer-events-auto">
+                {/* Badge 1: Hours Coded */}
+                <motion.div
+                  whileHover={{ scale: 1.05, x: 5 }}
+                  className="bg-background/90 border border-white/10 px-4 py-2.5 rounded-2xl backdrop-blur-xl shadow-2xl flex items-center gap-3 cursor-pointer min-w-[170px]"
+                >
+                  <div className="p-2 bg-blue-500/10 rounded-xl text-blue-400 shrink-0">
+                    <Terminal size={14} />
+                  </div>
+                  <div className="text-left">
+                    <span className="block text-xs font-black text-white leading-none">1,200+</span>
+                    <span className="text-[8px] text-foreground/40 font-bold uppercase tracking-wider mt-0.5 block">Hours Coded</span>
+                  </div>
+                </motion.div>
+
+                {/* Badge 2: Projects Shipped */}
+                <motion.div
+                  whileHover={{ scale: 1.05, x: 5 }}
+                  className="bg-background/90 border border-white/10 px-4 py-2.5 rounded-2xl backdrop-blur-xl shadow-2xl flex items-center gap-3 cursor-pointer min-w-[170px]"
+                >
+                  <div className="p-2 bg-purple-500/10 rounded-xl text-purple-400 shrink-0">
+                    <Rocket size={14} />
+                  </div>
+                  <div className="text-left">
+                    <span className="block text-xs font-black text-white leading-none">3+</span>
+                    <span className="text-[8px] text-foreground/40 font-bold uppercase tracking-wider mt-0.5 block">Projects Shipped</span>
+                  </div>
+                </motion.div>
+
+                {/* Badge 3: DSA Problems */}
+                <motion.div
+                  whileHover={{ scale: 1.05, x: 5 }}
+                  className="bg-background/90 border border-white/10 px-4 py-2.5 rounded-2xl backdrop-blur-xl shadow-2xl flex items-center gap-3 cursor-pointer min-w-[170px]"
+                >
+                  <div className="p-2 bg-green-500/10 rounded-xl text-green-400 shrink-0">
+                    <CheckCircle size={14} />
+                  </div>
+                  <div className="text-left">
+                    <span className="block text-xs font-black text-white leading-none">150+</span>
+                    <span className="text-[8px] text-foreground/40 font-bold uppercase tracking-wider mt-0.5 block">DSA Problems</span>
+                  </div>
+                </motion.div>
+              </div>
+
             </motion.div>
           </div>
 
-          {/* Dynamic Interactive Drawer Right Column */}
-          <div className="lg:w-[60%] flex flex-col">
-            
-            {/* Elegant Tab Headers */}
-            <div className="flex space-x-2 overflow-x-auto pb-4 mb-8 border-b border-border/60">
-              {TABS.map((tab) => {
-                const isActive = activeTab === tab;
-                return (
-                  <button
-                    key={tab}
-                    onClick={() => setActiveTab(tab)}
-                    className={`px-6 py-3.5 rounded-2xl font-black tracking-wider text-xs uppercase whitespace-nowrap transition-all duration-300 relative ${
-                      isActive ? 'text-white' : 'text-foreground/45 hover:text-foreground hover:bg-card/40'
-                    }`}
-                  >
-                    <span className="relative z-10 flex items-center gap-2">
-                      {tab === 'Experience' && <Briefcase size={14} />}
-                      {tab === 'Education' && <GraduationCap size={14} />}
-                      {tab === 'Certifications' && <Award size={14} />}
-                      {tab}
+          {/* Right Column: Descriptions & Tech Grid (Matching Picture 2) */}
+          <div className="w-full lg:w-[55%] text-left flex flex-col items-start">
+            <motion.div
+              initial={{ opacity: 0, x: 30 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8 }}
+            >
+              {/* Heading */}
+              <h2 className="text-3xl sm:text-5xl font-black mb-6 uppercase tracking-tight text-white leading-[1.05]">
+                Turning Ideas Into <span className="text-transparent bg-clip-text bg-gradient-to-r from-red-400 via-orange-400 to-amber-300">Reality</span>
+              </h2>
+
+              <p className="text-foreground/60 text-base sm:text-lg leading-relaxed mb-8 font-medium">
+                I'm an <strong className="text-[var(--color-accent)] font-black">AI/ML Undergraduate</strong> & Full Stack Developer passionate about building digital products that make a difference. From building roadside assistance apps to deploying scaling APIs, I enjoy turning complex algorithms into elegant solutions. My focus is on creating scalable, user-centric applications using modern technologies.
+              </p>
+
+              {/* Technology Badges Grid */}
+              <div className="mb-10 w-full">
+                <h3 className="text-[10px] font-black tracking-widest text-foreground/45 uppercase mb-4 border-b border-border/30 pb-2">
+                  TECHNOLOGIES I WORK WITH
+                </h3>
+                <div className="flex flex-wrap gap-2.5">
+                  {techStack.map((tech) => (
+                    <span
+                      key={tech}
+                      className="px-3.5 py-2 bg-white/[0.03] hover:bg-white/[0.06] border border-white/5 hover:border-[var(--color-accent)]/30 rounded-xl text-xs font-bold text-foreground/75 hover:text-white uppercase tracking-wider transition-colors duration-300 cursor-default"
+                    >
+                      {tech}
                     </span>
-                    {isActive && (
-                      <motion.div
-                        layoutId="activeAboutTabIndicator"
-                        className="absolute inset-0 bg-[var(--color-accent)] rounded-2xl shadow-[0_4px_20px_rgba(168,85,247,0.25)]"
-                        transition={{ type: 'spring', stiffness: 350, damping: 28 }}
-                      />
-                    )}
-                  </button>
-                );
-              })}
-            </div>
+                  ))}
+                </div>
+              </div>
 
-            {/* Content Display Card */}
-            <div className="flex-1 bg-card/45 border border-border/80 rounded-3xl p-6 sm:p-10 shadow-2xl backdrop-blur-sm min-h-[420px] flex flex-col">
-              <AnimatePresence mode="wait">
-                <motion.div
-                  key={activeTab}
-                  initial={{ opacity: 0, y: 15 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -15 }}
-                  transition={{ duration: 0.3, ease: 'easeOut' }}
-                  className="flex-grow flex flex-col justify-center"
+              {/* Action Buttons Row */}
+              <div className="flex items-center gap-6">
+                <Link
+                  to="/contact"
+                  className="px-8 py-3.5 rounded-full bg-[var(--color-accent)] text-white font-black tracking-widest text-xs uppercase shadow-[0_4px_25px_rgba(168,85,247,0.15)] hover:bg-[var(--color-accent)]/90 hover:scale-[1.02] transition-all flex items-center justify-center"
                 >
-                  
-                  {/* Experience Timeline Tab */}
-                  {activeTab === 'Experience' && (
-                    <div className="space-y-8">
-                      {portfolioConfig.experiences.map((exp, idx) => (
-                        <div key={idx} className="relative pl-8 border-l-2 border-[var(--color-accent)]/20">
-                          <div className="absolute w-4 h-4 bg-background border-[3px] border-[var(--color-accent)] rounded-full -left-[9px] top-1.5 shadow-[0_0_10px_var(--color-accent)]"></div>
-                          
-                          <div className="flex flex-wrap items-start justify-between gap-2 mb-2">
-                            <h4 className="text-xl sm:text-2xl font-black text-white">
-                              {exp.role}
-                            </h4>
-                            <span className="px-3 py-1 bg-white/5 border border-border/60 rounded-full text-[10px] font-black tracking-wider uppercase text-foreground/50">
-                              {exp.duration}
-                            </span>
-                          </div>
-                          
-                          <p className="text-[10px] text-[var(--color-accent)] font-black tracking-widest uppercase mb-4">
-                            {exp.company}
-                          </p>
-                          
-                          <ul className="text-foreground/60 text-sm leading-relaxed space-y-3.5 font-medium">
-                            {exp.points.map((pt, pIdx) => (
-                              <li key={pIdx} className="flex items-start">
-                                <span className="text-[var(--color-accent)] mr-3 font-black text-xs select-none">•</span>
-                                <span>{pt}</span>
-                              </li>
-                            ))}
-                          </ul>
-                        </div>
-                      ))}
-                    </div>
-                  )}
+                  Let's Connect <ArrowUpRight size={14} className="ml-2" />
+                </Link>
 
-                  {/* Education Tab */}
-                  {activeTab === 'Education' && (
-                    <div className="space-y-8">
-                      {portfolioConfig.education.map((edu, idx) => (
-                        <div key={idx} className="relative pl-8 border-l-2 border-[var(--color-accent)]/20">
-                          <div className="absolute w-4 h-4 bg-background border-[3px] border-[var(--color-accent)] rounded-full -left-[9px] top-1.5 shadow-[0_0_10px_var(--color-accent)]"></div>
-                          
-                          <div className="flex flex-wrap items-start justify-between gap-2 mb-2">
-                            <h4 className="text-xl sm:text-2xl font-black text-white">
-                              {edu.degree}
-                            </h4>
-                            <span className="px-3 py-1 bg-white/5 border border-border/60 rounded-full text-[10px] font-black tracking-wider uppercase text-foreground/50">
-                              {edu.duration}
-                            </span>
-                          </div>
-                          
-                          <p className="text-[10px] text-[var(--color-accent)] font-black tracking-widest uppercase mb-4">
-                            {edu.school} — {edu.location}
-                          </p>
-                          
-                          <div className="bg-background/55 border border-border/60 rounded-2xl p-6 flex items-center justify-between shadow-inner max-w-sm mt-4">
-                            <div className="flex flex-col">
-                              <span className="text-[10px] font-black text-foreground/45 uppercase tracking-widest mb-0.5">Academic Standing</span>
-                              <span className="text-xs font-black text-foreground/65">Current Cumulative GPA</span>
-                            </div>
-                            <div className="text-right">
-                              <span className="text-3xl font-black text-white font-mono tracking-tighter">
-                                {edu.gpa.split(' ')[0]}
-                              </span>
-                              <span className="text-[10px] text-foreground/40 font-bold ml-1">/ 10</span>
-                            </div>
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                  )}
+                {/* Social links row */}
+                <div className="flex items-center space-x-3">
+                  <a
+                    href={portfolioConfig.socials.github}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="text-foreground/45 hover:text-white p-2 border border-border/80 rounded-full hover:border-[var(--color-accent)]/30 transition-all duration-300"
+                  >
+                    <Github size={16} />
+                  </a>
+                  <a
+                    href={portfolioConfig.socials.linkedin}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="text-foreground/45 hover:text-white p-2 border border-border/80 rounded-full hover:border-[var(--color-accent)]/30 transition-all duration-300"
+                  >
+                    <Linkedin size={16} />
+                  </a>
+                </div>
+              </div>
 
-                  {/* Certifications Tab */}
-                  {activeTab === 'Certifications' && (
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                      {portfolioConfig.certifications.map((cert, idx) => (
-                        <div
-                          key={idx}
-                          className="bg-background/45 border border-border/60 hover:border-[var(--color-accent)]/30 p-5 rounded-2xl flex items-center justify-between group/cert transition-all duration-300 shadow-lg relative overflow-hidden"
-                        >
-                          <div className="absolute top-0 right-0 w-12 h-12 bg-[var(--color-accent)]/5 blur-xl rounded-full opacity-0 group-hover/cert:opacity-100 transition-opacity"></div>
-                          
-                          <div className="flex items-center gap-4 relative z-10">
-                            <span className="text-2xl select-none filter drop-shadow-[0_0_5px_rgba(255,255,255,0.1)]">🏆</span>
-                            <h5 className="font-bold text-xs sm:text-sm text-foreground/80 leading-snug group-hover/cert:text-white transition-colors">
-                              {cert}
-                            </h5>
-                          </div>
-                          
-                          <ArrowUpRight size={14} className="text-foreground/35 group-hover/cert:text-[var(--color-accent)] group-hover/cert:translate-x-0.5 group-hover/cert:-translate-y-0.5 transition-all shrink-0 ml-3" />
-                        </div>
-                      ))}
-                    </div>
-                  )}
-
-                </motion.div>
-              </AnimatePresence>
-            </div>
-
+            </motion.div>
           </div>
+
         </div>
       </div>
     </section>
   );
 }
+
+// Arrow helper for buttons
+const ArrowUpRight = ({ size, className }: { size: number; className?: string }) => (
+  <svg className={className} width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+    <path d="M7 17L17 7M17 7H9M17 7V15" strokeLinecap="round" strokeLinejoin="round" />
+  </svg>
+);

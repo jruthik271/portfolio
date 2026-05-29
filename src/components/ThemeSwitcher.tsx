@@ -23,10 +23,10 @@ export const themes: ThemeOption[] = [
 
 export default function ThemeSwitcher() {
   const [isOpen, setIsOpen] = useState(false);
-  const [currentTheme, setCurrentTheme] = useState('violet');
+  const [currentTheme, setCurrentTheme] = useState('vivid-cyan');
 
   useEffect(() => {
-    const savedTheme = localStorage.getItem('portfolio-theme') || 'violet';
+    const savedTheme = localStorage.getItem('portfolio-theme') || 'vivid-cyan';
     setTheme(savedTheme);
   }, []);
 

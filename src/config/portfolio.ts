@@ -85,7 +85,7 @@ export const portfolioConfig: PortfolioConfig = {
   },
   socials: {
     github: "https://github.com/jruthik271",
-    linkedin: "https://www.linkedin.com/in/sumanth-jallipalli",
+    linkedin: "https://www.linkedin.com/in/sumanth-jallipalli-a36174291/",
     email: "jruthik271@gmail.com",
     phone: "+91 9491895027",
     location: "Chintalapudi, Andhra Pradesh - 534460, India",

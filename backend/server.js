@@ -33,6 +33,7 @@ app.use('/api/contact', contactLimiter, require('./routes/contact'));
 app.use('/api/resume', require('./routes/resume')); // Limit is handled specifically on redirect endpoint
 app.use('/api/github', require('./routes/github'));
 app.use('/api/leetcode', require('./routes/leetcode'));
+app.use('/api/geeksforgeeks', require('./routes/geeksforgeeks'));
 
 // Custom specific limiter on the download endpoint
 app.get('/api/resume/download', resumeLimiter);
@@ -49,6 +50,10 @@ app.use((err, req, res, next) => {
 });
 
 // 8. Start Listening
+// 9. Launch dynamic daily synchronization scheduler
+const { startScheduler } = require('./services/scheduler');
+startScheduler();
+
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
   console.log(`Server running securely on port ${PORT}`);

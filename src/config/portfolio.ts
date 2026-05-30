@@ -122,6 +122,20 @@ export const portfolioConfig: PortfolioConfig = {
       duration: "Oct 2023 – Present",
       gpa: "8.06 / 10.00",
       location: "Surampalem, India"
+    },
+    {
+      degree: "Intermediate (12th Grade)",
+      school: "S S D A V School (B Gangaram, Sathupally)",
+      duration: "2021 – 2023",
+      gpa: "82.4%",
+      location: "Bathulapalli Road, Sathupally, India"
+    },
+    {
+      degree: "Secondary School Certificate (10th Grade)",
+      school: "S S D A V School (B Gangaram, Sathupally)",
+      duration: "2020 – 2021",
+      gpa: "83.4%",
+      location: "Bathulapalli Road, Sathupally, India"
     }
   ],
   certifications: [

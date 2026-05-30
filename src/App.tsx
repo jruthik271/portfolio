@@ -8,6 +8,7 @@ import CursorGlow from './components/CursorGlow';
 
 // Lazy load below the fold components
 const About = React.lazy(() => import('./components/About'));
+const AboutHome = React.lazy(() => import('./components/AboutHome'));
 const Skills = React.lazy(() => import('./components/Skills'));
 const Work = React.lazy(() => import('./components/Work'));
 const Journey = React.lazy(() => import('./components/Journey'));
@@ -38,7 +39,12 @@ export default function App() {
         <main className="relative z-10 flex-grow pt-24 pb-12 w-full">
           <Suspense fallback={<PageLoader />}>
             <Routes>
-              <Route path="/" element={<Hero />} />
+              <Route path="/" element={
+                <>
+                  <Hero />
+                  <AboutHome />
+                </>
+              } />
               <Route path="/about" element={<About />} />
               <Route path="/skills" element={<Skills />} />
               <Route path="/work" element={<Work />} />

@@ -1,9 +1,13 @@
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { Github, Linkedin, Mail, ArrowUpRight } from 'lucide-react';
 import { portfolioConfig } from '../config/portfolio';
 
 export default function Footer() {
   const currentYear = new Date().getFullYear();
+  const location = useLocation();
+  const isHomePage = location.pathname === '/';
+  
+  if (!isHomePage) return null;
   
   return (
     <footer className="relative bg-background pt-24 pb-12 overflow-hidden border-t border-border/40">

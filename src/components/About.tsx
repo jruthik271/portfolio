@@ -1,187 +1,271 @@
-import { motion } from 'framer-motion';
-import { Compass, Globe, Rocket, CheckCircle, Terminal, Github, Linkedin } from 'lucide-react';
+import { useEffect, useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { Award, Briefcase, GraduationCap, Compass, BookOpen, ExternalLink } from 'lucide-react';
 import { portfolioConfig } from '../config/portfolio';
-import { Link } from 'react-router-dom';
+
+type TabType = 'achievements' | 'experience' | 'credentials' | 'education';
+
+const certUrls: Record<string, string> = {
+  "Postman API Fundamentals – Student Expert": "https://badges.parchment.com/public/assertions/yrqxl5_vTeKQHw6EUuhW7g?identity__email=jsumanth271@gmail.com",
+  "Cisco Networking Academy - Python Essentials (1 & 2)": "https://www.credly.com/badges/f2ecdac3-ed01-49de-88d2-5671f8de68e0",
+  "HackerRank Certifications: Python (Basic), C (Basic), SQL (Basic), Problem Solving (Basic)": "https://www.hackerrank.com/profile/jruthik271",
+  "MongoDB Node.js Developer Certification": "https://www.credly.com/badges/e90b26c1-89ac-4459-9b2d-7fef0d14cdb5/public_url",
+  "GitHub Foundations Certification": "https://learn.microsoft.com/api/credentials/share/en-gb/SumanthJallipalli-5267/A37CFE252167ACAA?sharingId=8CA79E5DCCAC7BFD"
+};
 
 export default function About() {
-  const techStack = [
-    'React', 'Next.js', 'Node.js', 'Python', 'Java', 
-    'TypeScript', 'Flutter', 'Dart', 'MongoDB', 'MySQL', 'Git'
+  const [activeTab, setActiveTab] = useState<TabType>('achievements');
+  const [solvedCount, setSolvedCount] = useState(807);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchStats = async () => {
+      try {
+        const [leetcodeRes, gfgRes] = await Promise.all([
+          fetch('http://localhost:5000/api/leetcode/stats'),
+          fetch('http://localhost:5000/api/geeksforgeeks/stats')
+        ]);
+
+        let leetcode = 155;
+        let gfg = 2;
+
+        if (leetcodeRes.ok) {
+          const leetcodeData = await leetcodeRes.json();
+          if (leetcodeData.solvedTotal) leetcode = leetcodeData.solvedTotal;
+        }
+
+        if (gfgRes.ok) {
+          const gfgData = await gfgRes.json();
+          if (gfgData.solvedTotal) gfg = gfgData.solvedTotal;
+        }
+
+        setSolvedCount(leetcode + gfg + 650);
+      } catch (err) {
+        console.warn('Failed to fetch live stats for About:', err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchStats();
+  }, []);
+
+  const tabs = [
+    { id: 'achievements', label: 'Achievements', icon: Award },
+    { id: 'experience', label: 'Experience', icon: Briefcase },
+    { id: 'credentials', label: 'Credentials', icon: Compass },
+    { id: 'education', label: 'Education', icon: GraduationCap },
   ];
 
   return (
-    <section id="about" className="py-24 relative overflow-hidden bg-background">
-      {/* Background soft glow shader */}
-      <div className="absolute top-[30%] right-[-10%] w-96 h-96 bg-[var(--color-accent)]/5 blur-[120px] rounded-full pointer-events-none"></div>
+    <section id="about-timeline" className="py-24 relative overflow-hidden bg-background">
+      {/* Dynamic backdrop shaders */}
+      <div className="absolute top-[20%] left-[-10%] w-[500px] h-[500px] bg-[var(--color-accent)]/5 blur-[130px] rounded-full pointer-events-none"></div>
+      <div className="absolute bottom-[20%] right-[-10%] w-[500px] h-[500px] bg-blue-500/5 blur-[130px] rounded-full pointer-events-none"></div>
 
-      <div className="max-w-7xl mx-auto px-6">
-        <div className="flex flex-col lg:flex-row gap-16 items-center">
+      <div className="max-w-7xl mx-auto px-6 relative z-10">
+        <div className="flex flex-col lg:flex-row gap-16 items-stretch">
           
-          {/* Left Column: Picture frame with floating stats cards (Matching Picture 2) */}
-          <div className="w-full lg:w-[45%] flex justify-center relative">
-            
-            {/* Top Subtitle Button (Matching Picture 2) */}
-            <div className="absolute -top-10 left-4 z-20">
-              <span className="px-4 py-1.5 border border-[var(--color-accent)]/30 bg-[var(--color-accent)]/5 rounded-full text-[10px] font-black tracking-widest uppercase text-[var(--color-accent)] flex items-center gap-1.5 shadow-[0_0_15px_rgba(168,85,247,0.15)]">
-                <Compass size={12} className="animate-spin-slow" /> About Me
-              </span>
-            </div>
-
-            {/* Main Portrait Card Layout */}
+          {/* Left Column: Typographic Details & Stat Blocks */}
+          <div className="w-full lg:w-[45%] flex flex-col justify-between text-left">
             <motion.div
               initial={{ opacity: 0, x: -30 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.8, type: 'spring' }}
-              className="relative w-full max-w-[380px] rounded-[32px] border border-white/10 bg-white/[0.02] p-4 shadow-2xl backdrop-blur-md group overflow-hidden"
+              transition={{ duration: 0.8 }}
+              className="flex-grow flex flex-col justify-center"
             >
-              <div className="relative aspect-[3/4] w-full rounded-[24px] overflow-hidden bg-background border border-border flex items-center justify-center">
-                <img
-                  src={`${import.meta.env.BASE_URL}avatar.png`}
-                  onError={(e) => {
-                    e.currentTarget.style.display = 'none';
-                    const parent = e.currentTarget.parentElement;
-                    if (parent) {
-                      const fb = parent.querySelector('.avatar-fallback');
-                      if (fb) fb.classList.remove('hidden');
-                    }
-                  }}
-                  alt="Sumanth's Setup"
-                  loading="lazy"
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
-                />
-
-                {/* SVG avatar fallback */}
-                <div className="avatar-fallback hidden flex flex-col items-center justify-center p-6 text-center h-full w-full bg-gradient-to-tr from-[var(--color-accent)]/10 to-blue-500/10 text-[var(--color-accent)]">
-                  <svg className="w-16 h-16 opacity-50 mb-3 animate-pulse" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-                    <path d="M12 14a5 5 0 100-10 5 5 0 000 10zM12 17c-4.418 0-8 2.239-8 5v1h16v-1c0-2.761-3.582-5-8-5z" strokeLinecap="round" strokeLinejoin="round" />
-                  </svg>
-                  <span className="text-[10px] font-black tracking-widest uppercase text-white/50">J. Sumanth</span>
-                  <span className="text-[8px] text-[var(--color-accent)] font-bold mt-1 uppercase tracking-widest font-mono">&lt;AI/ML & DEV&gt;</span>
-                </div>
-
-                {/* Bottom details tag overlay on photo (Matching Picture 2) */}
-                <div className="absolute bottom-4 left-4 right-4 bg-background/85 border border-border/80 p-4 rounded-2xl backdrop-blur-xl z-20 shadow-xl">
-                  <h4 className="text-xs font-black text-white uppercase tracking-wider">{portfolioConfig.personal.fullName}</h4>
-                  <p className="text-[9px] text-[var(--color-accent)] font-black uppercase tracking-widest mt-0.5">
-                    {portfolioConfig.personal.subRole} & Dev
-                  </p>
-                  <p className="text-[8px] text-foreground/45 font-bold uppercase tracking-wider mt-1.5 flex items-center gap-1">
-                    <Globe size={10} /> Andhra Pradesh, India
-                  </p>
-                </div>
+              {/* Top Section Tag */}
+              <div className="inline-flex items-center space-x-1.5 border border-[var(--color-accent)]/30 bg-[var(--color-accent)]/5 px-4 py-1.5 rounded-full mb-6 w-fit shadow-[0_0_15px_rgba(168,85,247,0.15)]">
+                <BookOpen size={12} className="text-[var(--color-accent)]" />
+                <span className="text-[10px] font-black tracking-widest uppercase text-[var(--color-accent)]">About Me</span>
               </div>
 
-              {/* Floating Badges Overlay (Matching Picture 2 - Vertical Stack on the Right) */}
-              <div className="absolute top-8 -right-12 sm:-right-16 flex flex-col gap-3 z-30 pointer-events-auto">
-                {/* Badge 1: Hours Coded */}
-                <motion.div
-                  whileHover={{ scale: 1.05, x: 5 }}
-                  className="bg-background/90 border border-white/10 px-4 py-2.5 rounded-2xl backdrop-blur-xl shadow-2xl flex items-center gap-3 cursor-pointer min-w-[170px]"
-                >
-                  <div className="p-2 bg-blue-500/10 rounded-xl text-blue-400 shrink-0">
-                    <Terminal size={14} />
-                  </div>
-                  <div className="text-left">
-                    <span className="block text-xs font-black text-white leading-none">1,200+</span>
-                    <span className="text-[8px] text-foreground/40 font-bold uppercase tracking-wider mt-0.5 block">Hours Coded</span>
-                  </div>
-                </motion.div>
+              {/* Spectacular Heading */}
+              <h2 className="text-4xl sm:text-5xl md:text-6xl font-black mb-6 uppercase tracking-tight text-white leading-[1.05]">
+                Building solutions <br />
+                that <span className="text-transparent bg-clip-text bg-gradient-to-r from-red-400 via-orange-400 to-amber-300">matter</span> and <br />
+                impact <span className="text-transparent bg-clip-text bg-gradient-to-r from-red-400 via-orange-400 to-amber-300">lives</span>
+              </h2>
 
-                {/* Badge 2: Projects Shipped */}
-                <motion.div
-                  whileHover={{ scale: 1.05, x: 5 }}
-                  className="bg-background/90 border border-white/10 px-4 py-2.5 rounded-2xl backdrop-blur-xl shadow-2xl flex items-center gap-3 cursor-pointer min-w-[170px]"
-                >
-                  <div className="p-2 bg-purple-500/10 rounded-xl text-purple-400 shrink-0">
-                    <Rocket size={14} />
-                  </div>
-                  <div className="text-left">
-                    <span className="block text-xs font-black text-white leading-none">3+</span>
-                    <span className="text-[8px] text-foreground/40 font-bold uppercase tracking-wider mt-0.5 block">Projects Shipped</span>
-                  </div>
-                </motion.div>
+              <p className="text-foreground/60 text-sm sm:text-base leading-relaxed mb-10 font-medium max-w-xl">
+                I'm a Full-Stack Mobile App Developer and AI/ML undergraduate passionate about building high-performance, user-centric mobile applications using Flutter & Dart. With hands-on experience developing voice-navigable assistive apps integrated with Gemini 2.0 Live and YOLOv8 models at Technical Hub, I focus on turning complex algorithms and clean architectures into intuitive, real-world mobile solutions.
+              </p>
 
-                {/* Badge 3: DSA Problems */}
-                <motion.div
-                  whileHover={{ scale: 1.05, x: 5 }}
-                  className="bg-background/90 border border-white/10 px-4 py-2.5 rounded-2xl backdrop-blur-xl shadow-2xl flex items-center gap-3 cursor-pointer min-w-[170px]"
-                >
-                  <div className="p-2 bg-green-500/10 rounded-xl text-green-400 shrink-0">
-                    <CheckCircle size={14} />
-                  </div>
-                  <div className="text-left">
-                    <span className="block text-xs font-black text-white leading-none">150+</span>
-                    <span className="text-[8px] text-foreground/40 font-bold uppercase tracking-wider mt-0.5 block">DSA Problems</span>
-                  </div>
-                </motion.div>
+              {/* Grid layout of 4 core metrics counters */}
+              <div className="grid grid-cols-2 gap-x-6 gap-y-8 border-t border-border/30 pt-8">
+                <div className="flex flex-col">
+                  <span className="text-3xl sm:text-4xl font-black text-transparent bg-clip-text bg-gradient-to-r from-red-400 to-orange-400 font-mono tracking-tighter">
+                    {loading ? '807+' : `${solvedCount}+`}
+                  </span>
+                  <span className="text-[9px] font-black text-foreground/45 uppercase tracking-widest mt-1.5">Coding Problems</span>
+                </div>
+                <div className="flex flex-col">
+                  <span className="text-3xl sm:text-4xl font-black text-transparent bg-clip-text bg-gradient-to-r from-red-400 to-orange-400 font-mono tracking-tighter">30+</span>
+                  <span className="text-[9px] font-black text-foreground/45 uppercase tracking-widest mt-1.5">Skills Mastered</span>
+                </div>
+                <div className="flex flex-col">
+                  <span className="text-3xl sm:text-4xl font-black text-transparent bg-clip-text bg-gradient-to-r from-red-400 to-orange-400 font-mono tracking-tighter">9,999+</span>
+                  <span className="text-[9px] font-black text-foreground/45 uppercase tracking-widest mt-1.5">People Impacted</span>
+                </div>
+                <div className="flex flex-col">
+                  <span className="text-3xl sm:text-4xl font-black text-transparent bg-clip-text bg-gradient-to-r from-red-400 to-orange-400 font-mono tracking-tighter">120+</span>
+                  <span className="text-[9px] font-black text-foreground/45 uppercase tracking-widest mt-1.5">Contests Battled</span>
+                </div>
               </div>
-
             </motion.div>
           </div>
 
-          {/* Right Column: Descriptions & Tech Grid (Matching Picture 2) */}
-          <div className="w-full lg:w-[55%] text-left flex flex-col items-start">
+          {/* Right Column: Tab Bar & Interactive Scrollable Timeline */}
+          <div className="w-full lg:w-[55%] flex flex-col justify-start">
             <motion.div
               initial={{ opacity: 0, x: 30 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.8 }}
+              className="bg-white/[0.01] border border-white/5 rounded-3xl p-6 md:p-8 backdrop-blur-md shadow-2xl flex flex-col h-full"
             >
-              {/* Heading */}
-              <h2 className="text-3xl sm:text-5xl font-black mb-6 uppercase tracking-tight text-white leading-[1.05]">
-                Turning Ideas Into <span className="text-transparent bg-clip-text bg-gradient-to-r from-red-400 via-orange-400 to-amber-300">Reality</span>
-              </h2>
-
-              <p className="text-foreground/60 text-base sm:text-lg leading-relaxed mb-8 font-medium">
-                I'm an <strong className="text-[var(--color-accent)] font-black">AI/ML Undergraduate</strong> & Full Stack Developer passionate about building digital products that make a difference. From building roadside assistance apps to deploying scaling APIs, I enjoy turning complex algorithms into elegant solutions. My focus is on creating scalable, user-centric applications using modern technologies.
-              </p>
-
-              {/* Technology Badges Grid */}
-              <div className="mb-10 w-full">
-                <h3 className="text-[10px] font-black tracking-widest text-foreground/45 uppercase mb-4 border-b border-border/30 pb-2">
-                  TECHNOLOGIES I WORK WITH
-                </h3>
-                <div className="flex flex-wrap gap-2.5">
-                  {techStack.map((tech) => (
-                    <span
-                      key={tech}
-                      className="px-3.5 py-2 bg-white/[0.03] hover:bg-white/[0.06] border border-white/5 hover:border-[var(--color-accent)]/30 rounded-xl text-xs font-bold text-foreground/75 hover:text-white uppercase tracking-wider transition-colors duration-300 cursor-default"
+              {/* Sleek Horizontal Tab Bar */}
+              <div className="flex flex-wrap items-center gap-2 sm:gap-4 border-b border-border/30 pb-4 mb-8">
+                {tabs.map((tab) => {
+                  const Icon = tab.icon;
+                  const isActive = activeTab === tab.id;
+                  return (
+                    <button
+                      key={tab.id}
+                      onClick={() => setActiveTab(tab.id as TabType)}
+                      className={`relative px-4 py-2 rounded-xl text-xs font-black tracking-widest uppercase transition-all duration-300 flex items-center gap-1.5 ${
+                        isActive ? 'text-white' : 'text-foreground/45 hover:text-white'
+                      }`}
                     >
-                      {tech}
-                    </span>
-                  ))}
-                </div>
+                      {isActive && (
+                        <motion.span
+                          layoutId="activeTabUnderline"
+                          className="absolute inset-0 bg-white/[0.04] border border-white/10 rounded-xl shadow-lg z-0"
+                          transition={{ type: 'spring', stiffness: 350, damping: 28 }}
+                        />
+                      )}
+                      <span className="relative z-10 flex items-center gap-1.5">
+                        <Icon size={12} className={isActive ? 'text-orange-400' : ''} />
+                        {tab.label}
+                      </span>
+                    </button>
+                  );
+                })}
               </div>
 
-              {/* Action Buttons Row */}
-              <div className="flex items-center gap-6">
-                <Link
-                  to="/contact"
-                  className="px-8 py-3.5 rounded-full bg-[var(--color-accent)] text-white font-black tracking-widest text-xs uppercase shadow-[0_4px_25px_rgba(168,85,247,0.15)] hover:bg-[var(--color-accent)]/90 hover:scale-[1.02] transition-all flex items-center justify-center"
-                >
-                  Let's Connect <ArrowUpRight size={14} className="ml-2" />
-                </Link>
+              {/* Dynamic Scrollable Content Timeline Container */}
+              <div className="relative max-h-[380px] overflow-y-auto pr-4 scrollbar-thin scrollbar-thumb-white/5 scrollbar-track-transparent text-left">
+                <AnimatePresence mode="wait">
+                  <motion.div
+                    key={activeTab}
+                    initial={{ opacity: 0, y: 15 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -15 }}
+                    transition={{ duration: 0.3 }}
+                    className="relative pl-6 border-l border-border/30 ml-3 py-2 space-y-8"
+                  >
+                    
+                    {/* Active Timeline Dot/Line Accent */}
+                    <div className="absolute top-0 left-[-1.5px] w-[3px] bg-gradient-to-b from-orange-500 to-amber-300 h-full rounded-full pointer-events-none"></div>
 
-                {/* Social links row */}
-                <div className="flex items-center space-x-3">
-                  <a
-                    href={portfolioConfig.socials.github}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="text-foreground/45 hover:text-white p-2 border border-border/80 rounded-full hover:border-[var(--color-accent)]/30 transition-all duration-300"
-                  >
-                    <Github size={16} />
-                  </a>
-                  <a
-                    href={portfolioConfig.socials.linkedin}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="text-foreground/45 hover:text-white p-2 border border-border/80 rounded-full hover:border-[var(--color-accent)]/30 transition-all duration-300"
-                  >
-                    <Linkedin size={16} />
-                  </a>
-                </div>
+                    {/* Achievements Tab */}
+                    {activeTab === 'achievements' && (
+                      <div className="flex flex-col items-center justify-center py-12 text-center text-foreground/30 font-bold uppercase tracking-widest text-xs w-full">
+                        <Award size={32} className="opacity-30 mb-2 animate-pulse text-orange-500" />
+                        Achievements will be updated later
+                      </div>
+                    )}
+
+                    {/* Experience Tab */}
+                    {activeTab === 'experience' &&
+                      portfolioConfig.experiences.map((item, idx) => (
+                        <div key={idx} className="relative group">
+                          {/* Circle Marker */}
+                          <div className="absolute left-[-31px] top-1.5 w-3 h-3 rounded-full bg-background border-2 border-orange-500 group-hover:bg-orange-500 transition-all shadow-[0_0_10px_rgba(249,115,22,0.5)]"></div>
+                          
+                          <div className="space-y-2">
+                            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1">
+                              <h4 className="text-sm font-black text-white uppercase tracking-wider group-hover:text-orange-400 transition-colors">
+                                {item.role}
+                              </h4>
+                              <span className="text-[9px] font-black uppercase tracking-widest text-[var(--color-accent)] bg-[var(--color-accent)]/10 px-2 py-0.5 rounded-md border border-[var(--color-accent)]/20 w-fit">
+                                {item.duration}
+                              </span>
+                            </div>
+                            <span className="block text-xs font-bold text-white/60 tracking-wider">
+                              {item.company}
+                            </span>
+                            <ul className="list-disc pl-4 space-y-1 text-xs text-foreground/55 font-medium leading-relaxed">
+                              {item.points.map((pt, pIdx) => (
+                                <li key={pIdx}>{pt}</li>
+                              ))}
+                            </ul>
+                          </div>
+                        </div>
+                      ))}
+
+                    {/* Credentials Tab */}
+                    {activeTab === 'credentials' &&
+                      portfolioConfig.certifications.map((item, idx) => {
+                        const url = certUrls[item] || "https://www.linkedin.com/in/sumanth-jallipalli-a36174291/";
+                        return (
+                          <a
+                            key={idx}
+                            href={url}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="relative group block cursor-pointer"
+                          >
+                            {/* Circle Marker */}
+                            <div className="absolute left-[-31px] top-1.5 w-3 h-3 rounded-full bg-background border-2 border-orange-500 group-hover:bg-orange-500 transition-all shadow-[0_0_10px_rgba(249,115,22,0.5)]"></div>
+                            
+                            <div className="flex items-start justify-between gap-4">
+                              <div className="space-y-1">
+                                <h4 className="text-sm font-black text-white uppercase tracking-wider group-hover:text-orange-400 transition-colors leading-snug">
+                                  {item}
+                                </h4>
+                                <p className="text-[9px] text-foreground/35 font-bold uppercase tracking-wider">Click to Verify Badge</p>
+                              </div>
+                              <div className="text-foreground/45 group-hover:text-white p-1.5 rounded-lg border border-white/5 bg-white/[0.02] group-hover:border-orange-500/30 transition-all shrink-0">
+                                <ExternalLink size={12} />
+                              </div>
+                            </div>
+                          </a>
+                        );
+                      })}
+
+                    {/* Education Tab */}
+                    {activeTab === 'education' &&
+                      portfolioConfig.education.map((item, idx) => (
+                        <div key={idx} className="relative group">
+                          {/* Circle Marker */}
+                          <div className="absolute left-[-31px] top-1.5 w-3 h-3 rounded-full bg-background border-2 border-orange-500 group-hover:bg-orange-500 transition-all shadow-[0_0_10px_rgba(249,115,22,0.5)]"></div>
+                          
+                          <div className="space-y-2">
+                            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1">
+                              <h4 className="text-sm font-black text-white uppercase tracking-wider group-hover:text-orange-400 transition-colors">
+                                {item.degree}
+                              </h4>
+                              <span className="text-[9px] font-black uppercase tracking-widest text-[var(--color-accent)] bg-[var(--color-accent)]/10 px-2 py-0.5 rounded-md border border-[var(--color-accent)]/20 w-fit">
+                                {item.duration}
+                              </span>
+                            </div>
+                            <div className="flex items-center justify-between text-xs text-foreground/50 font-bold tracking-wider">
+                              <span>{item.school}</span>
+                              <span className="text-orange-400">
+                                {item.gpa.includes('%') ? 'Percentage' : 'CGPA'}: {item.gpa}
+                              </span>
+                            </div>
+                            <span className="block text-[9px] text-foreground/35 font-black uppercase tracking-widest">
+                              Location: {item.location}
+                            </span>
+                          </div>
+                        </div>
+                      ))}
+
+                  </motion.div>
+                </AnimatePresence>
               </div>
 
             </motion.div>
@@ -192,10 +276,3 @@ export default function About() {
     </section>
   );
 }
-
-// Arrow helper for buttons
-const ArrowUpRight = ({ size, className }: { size: number; className?: string }) => (
-  <svg className={className} width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
-    <path d="M7 17L17 7M17 7H9M17 7V15" strokeLinecap="round" strokeLinejoin="round" />
-  </svg>
-);

@@ -56,7 +56,7 @@ export default function Hero() {
       <div className="absolute bottom-[20%] right-[5%] w-[450px] h-[450px] bg-blue-500/5 blur-[120px] rounded-full pointer-events-none"></div>
 
       <div className="max-w-7xl mx-auto px-6 z-10 relative w-full mt-4">
-        <div className="flex flex-col lg:flex-row items-center justify-between gap-12">
+        <div className="flex flex-col lg:flex-row items-center lg:items-end justify-between gap-12">
           
           {/* Left Column: Visual Typography & Actions */}
           <div className="w-full lg:w-[60%] text-left flex flex-col items-start order-2 lg:order-1">
@@ -85,7 +85,7 @@ export default function Hero() {
             >
               I'm <span className="text-transparent bg-clip-text bg-gradient-to-r from-red-400 via-orange-400 to-amber-300">{portfolioConfig.personal.name}</span>
               <br />
-              <span className="text-white">Software Developer</span>
+              <span className="text-white">Flutter & AI/ML Developer</span>
             </motion.h1>
 
             {/* Description Subtext */}
@@ -95,7 +95,7 @@ export default function Hero() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.1, duration: 0.7 }}
             >
-              Crafting elegant, scalable digital experiences through modern web technologies. I specialize in full-stack development, building production-ready applications that solve real-world problems.
+              Crafting elegant, high-performance mobile applications and AI-integrated systems. I specialize in full-stack mobile development using Flutter and Dart, building production-ready apps that solve real-world problems.
             </motion.p>
 
             {/* Metrics Counters Row (Matching Picture 3 stats layout) */}
@@ -162,19 +162,19 @@ export default function Hero() {
 
           </div>
 
-          {/* Right Column: Direct Portrait Overlay (Matching Picture 3) */}
-          <div className="w-full lg:w-[35%] flex justify-center order-1 lg:order-2">
+          {/* Right Column: Direct Portrait Overlay (Transparent Cutout matching Picture 3) */}
+          <div className="w-full lg:w-[40%] flex justify-center lg:justify-end order-1 lg:order-2 self-end">
             <motion.div
-              initial={{ opacity: 0, scale: 0.95 }}
-              animate={{ opacity: 1, scale: 1 }}
+              initial={{ opacity: 0, y: 50 }}
+              animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, type: 'spring', stiffness: 80 }}
-              className="relative select-none pointer-events-none max-w-[280px] sm:max-w-[320px] w-full"
+              className="relative select-none max-w-[320px] md:max-w-[400px] w-full flex items-end justify-center lg:justify-end"
             >
               {/* Outer soft ambient profile backlighting */}
               <div className="absolute inset-0 bg-gradient-to-tr from-[var(--color-accent)]/20 to-blue-500/10 rounded-full blur-[80px] scale-90 pointer-events-none"></div>
 
-              {/* Portrait Holder with Glassmorphic Shimmer Rim */}
-              <div className="relative aspect-[3/4] w-full rounded-[32px] border border-white/10 p-2.5 bg-white/[0.03] backdrop-blur-md shadow-2xl overflow-hidden flex items-center justify-center group">
+              {/* Portrait Image without ANY bounding box/frame, standing directly */}
+              <div className="relative w-full flex items-end justify-center">
                 <img
                   src={`${import.meta.env.BASE_URL}avatar.png`}
                   onError={(e) => {
@@ -186,11 +186,11 @@ export default function Hero() {
                     }
                   }}
                   alt="Sumanth Portrait"
-                  className="w-full h-full object-cover rounded-[24px]"
+                  className="w-full h-auto object-contain max-h-[480px] lg:max-h-[550px] drop-shadow-[0_20px_50px_rgba(0,0,0,0.5)] transform hover:scale-[1.03] transition-transform duration-500"
                 />
 
-                {/* Vector developer fallback inside glass rim */}
-                <div className="avatar-fallback hidden flex flex-col items-center justify-center p-6 text-center h-full w-full bg-gradient-to-tr from-[var(--color-accent)]/10 to-blue-500/10 text-[var(--color-accent)]">
+                {/* Vector developer fallback inside glass rim if image fails */}
+                <div className="avatar-fallback hidden flex flex-col items-center justify-center p-6 text-center aspect-[3/4] w-full rounded-[32px] bg-gradient-to-tr from-[var(--color-accent)]/10 to-blue-500/10 text-[var(--color-accent)] border border-white/10 shadow-2xl">
                   <svg className="w-14 h-14 opacity-50 mb-3 animate-pulse" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
                     <path d="M12 14a5 5 0 100-10 5 5 0 000 10zM12 17c-4.418 0-8 2.239-8 5v1h16v-1c0-2.761-3.582-5-8-5z" strokeLinecap="round" strokeLinejoin="round" />
                   </svg>

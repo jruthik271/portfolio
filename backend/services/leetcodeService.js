@@ -79,6 +79,8 @@ const fetchLeetcodeProxy = async (username) => {
   };
 };
 
+let leetcodeInMemoryCache = null;
+
 const syncLeetcodeStats = async () => {
   const username = process.env.LEETCODE_USERNAME || 'jruthik271';
   console.log(`Syncing LeetCode statistics for user: ${username}`);
@@ -106,22 +108,45 @@ const syncLeetcodeStats = async () => {
 
   // Save to database if we got data
   if (statsData) {
-    const updatedStats = await LeetcodeStats.findOneAndUpdate(
-      { username },
-      {
-        ...statsData,
-        fetchedAt: Date.now()
-      },
-      { upsert: true, new: true }
-    );
-    return updatedStats;
+    leetcodeInMemoryCache = { ...statsData, username, fetchedAt: Date.now() };
+    
+    const mongoose = require('mongoose');
+    if (mongoose.connection.readyState === 1) {
+      try {
+        const updatedStats = await LeetcodeStats.findOneAndUpdate(
+          { username },
+          {
+            ...statsData,
+            fetchedAt: Date.now()
+          },
+          { upsert: true, new: true }
+        );
+        return updatedStats;
+      } catch (dbErr) {
+        console.warn('Failed to save LeetCode stats to MongoDB, returning memory cache:', dbErr.message);
+      }
+    }
+    return leetcodeInMemoryCache;
   }
 
-  // Fallback to existing cached stats in DB if both networks failed
-  const existing = await LeetcodeStats.findOne({ username });
-  if (existing) {
-    console.warn('Returning cached database stats due to network sync failure.');
-    return existing;
+  // Fallback to existing cached stats in DB or Memory if both networks failed
+  const mongoose = require('mongoose');
+  if (mongoose.connection.readyState === 1) {
+    try {
+      const existing = await LeetcodeStats.findOne({ username });
+      if (existing) {
+        console.warn('Returning cached database stats due to network sync failure.');
+        leetcodeInMemoryCache = existing;
+        return existing;
+      }
+    } catch (dbErr) {
+      console.warn('DB lookup failed during fallback:', dbErr.message);
+    }
+  }
+
+  if (leetcodeInMemoryCache) {
+    console.log('Returning in-memory cache fallback.');
+    return leetcodeInMemoryCache;
   }
 
   throw new Error(`Failed to sync LeetCode statistics: ${errors.join(' | ')}`);
@@ -129,26 +154,42 @@ const syncLeetcodeStats = async () => {
 
 const getCachedLeetcodeStats = async () => {
   const username = process.env.LEETCODE_USERNAME || 'jruthik271';
-  let stats = await LeetcodeStats.findOne({ username });
-  if (!stats) {
-    // If not cached, trigger sync
+  
+  const mongoose = require('mongoose');
+  if (mongoose.connection.readyState === 1) {
     try {
-      stats = await syncLeetcodeStats();
-    } catch (err) {
-      // Return a standard placeholder object if completely empty
-      stats = {
-        username,
-        solvedTotal: 154,
-        solvedEasy: 82,
-        solvedMedium: 61,
-        solvedHard: 11,
-        globalRank: 185000,
-        contestRating: 1480,
-        streak: 5
-      };
+      let stats = await LeetcodeStats.findOne({ username });
+      if (stats) {
+        leetcodeInMemoryCache = stats;
+        return stats;
+      }
+    } catch (dbErr) {
+      console.warn('DB query failed in getCachedLeetcodeStats:', dbErr.message);
     }
   }
-  return stats;
+
+  if (leetcodeInMemoryCache) {
+    return leetcodeInMemoryCache;
+  }
+
+  // If not cached, trigger sync
+  try {
+    return await syncLeetcodeStats();
+  } catch (err) {
+    // Return a standard placeholder object if completely empty
+    const defaultStats = {
+      username,
+      solvedTotal: 155,
+      solvedEasy: 82,
+      solvedMedium: 62,
+      solvedHard: 11,
+      globalRank: 185000,
+      contestRating: 1480,
+      streak: 5
+    };
+    leetcodeInMemoryCache = defaultStats;
+    return defaultStats;
+  }
 };
 
 module.exports = {

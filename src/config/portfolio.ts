@@ -37,14 +37,6 @@ export interface ProjectItem {
   borderColor: string; // Tailwind border hover classes
 }
 
-export interface BlogItem {
-  title: string;
-  date: string;
-  readTime: string;
-  category: string;
-  excerpt: string;
-}
-
 export interface SocialLinks {
   github: string;
   linkedin: string;
@@ -71,7 +63,6 @@ export interface PortfolioConfig {
   certifications: string[];
   skills: SkillCategory[];
   projects: ProjectItem[];
-  blogs: BlogItem[];
 }
 
 export const portfolioConfig: PortfolioConfig = {
@@ -207,29 +198,6 @@ export const portfolioConfig: PortfolioConfig = {
       icon: Layers,
       color: "from-purple-500/20 to-purple-500/0",
       borderColor: "group-hover:border-purple-500/50"
-    }
-  ],
-  blogs: [
-    {
-      title: "Understanding React Server Components",
-      date: "Oct 15, 2023",
-      readTime: "5 min read",
-      category: "React",
-      excerpt: "A deep dive into how React Server Components work and why they represent the future of React development."
-    },
-    {
-      title: "Mastering Tailwind CSS Animations",
-      date: "Nov 02, 2023",
-      readTime: "8 min read",
-      category: "CSS",
-      excerpt: "Learn how to create complex, performant animations using only Tailwind CSS utility classes."
-    },
-    {
-      title: "Building Scalable Node.js Backends",
-      date: "Dec 10, 2023",
-      readTime: "12 min read",
-      category: "Node.js",
-      excerpt: "Architecture patterns and best practices for building enterprise-grade backend systems with Node.js."
     }
   ]
 };

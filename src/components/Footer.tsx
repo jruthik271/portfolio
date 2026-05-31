@@ -96,11 +96,6 @@ export default function Footer() {
                   My Skills
                 </Link>
               </li>
-              <li>
-                <Link to="/blogs" className="text-foreground/50 hover:text-[var(--color-accent)] transition-colors">
-                  Blog Posts
-                </Link>
-              </li>
             </ul>
           </div>
 
@@ -171,7 +166,6 @@ export default function Footer() {
             © {currentYear} {portfolioConfig.personal.fullName}. Crafted with ❤️ using React & Vite.
           </p>
           <div className="flex gap-6 text-[10px] font-black uppercase tracking-widest text-foreground/45">
-            <Link to="/blogs" className="hover:text-white transition-colors duration-300">Blog</Link>
             <Link to="/skills" className="hover:text-white transition-colors duration-300">Skills</Link>
             <Link to="/contact" className="hover:text-white transition-colors duration-300">Contact</Link>
           </div>

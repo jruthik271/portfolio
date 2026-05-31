@@ -24,7 +24,6 @@ export default function Navbar() {
     { name: 'Skills', to: '/skills' },
     { name: 'Projects', to: '/work' },
     { name: 'Journey', to: '/journey' },
-    { name: 'Blogs', to: '/blogs' },
     { name: 'Contact', to: '/contact' },
   ];
 

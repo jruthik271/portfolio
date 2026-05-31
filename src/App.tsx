@@ -12,7 +12,6 @@ const AboutHome = React.lazy(() => import('./components/AboutHome'));
 const Skills = React.lazy(() => import('./components/Skills'));
 const Work = React.lazy(() => import('./components/Work'));
 const Journey = React.lazy(() => import('./components/Journey'));
-const Blogs = React.lazy(() => import('./components/Blogs'));
 const Contact = React.lazy(() => import('./components/Contact'));
 const Footer = React.lazy(() => import('./components/Footer'));
 
@@ -49,7 +48,6 @@ export default function App() {
               <Route path="/skills" element={<Skills />} />
               <Route path="/work" element={<Work />} />
               <Route path="/journey" element={<Journey />} />
-              <Route path="/blogs" element={<Blogs />} />
               <Route path="/contact" element={<Contact />} />
               {/* Fallback to home */}
               <Route path="*" element={<Navigate to="/" replace />} />

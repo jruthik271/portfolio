@@ -19,7 +19,7 @@ export default function Footer() {
         
         {/* Top Call-to-Action Panel (Picture 1 "Let's Build Something Amazing") */}
         <div className="text-center pb-16 border-b border-border/30 mb-16 flex flex-col items-center">
-          <h2 className="text-4xl sm:text-5xl md:text-6xl font-black tracking-tight mb-4 text-white leading-tight">
+          <h2 className="text-4xl sm:text-5xl md:text-6xl font-black tracking-tight mb-4 text-foreground leading-tight">
             Let's Build Something <span className="text-transparent bg-clip-text bg-gradient-to-r from-red-400 via-orange-400 to-amber-300">Amazing</span>
           </h2>
           <p className="text-foreground/50 text-sm sm:text-base md:text-lg max-w-xl mb-8 font-medium">
@@ -42,7 +42,7 @@ export default function Footer() {
               <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-[var(--color-accent)] to-blue-500 flex items-center justify-center text-white font-black text-sm shadow-[0_4px_20px_rgba(6,182,212,0.25)] shrink-0">
                 JS
               </div>
-              <h3 className="text-lg font-black text-white tracking-tight uppercase">
+              <h3 className="text-lg font-black text-foreground tracking-tight uppercase">
                 {portfolioConfig.personal.name}
               </h3>
             </div>
@@ -144,14 +144,14 @@ export default function Footer() {
               <Mail size={14} /> Contact Me
             </Link>
 
-            {/* Glass Card showing email directly */}
+             {/* Glass Card showing email directly */}
             <div className="glass-card bg-card p-4 rounded-2xl border border-border/60 shadow-lg text-left relative overflow-hidden backdrop-blur-md">
               <span className="block text-[8px] text-foreground/35 font-black uppercase tracking-widest mb-1">
                 Email me at
               </span>
               <a
                 href={`mailto:${portfolioConfig.socials.email}`}
-                className="text-xs sm:text-sm font-bold text-white hover:text-[var(--color-accent)] transition-colors tracking-wide break-all"
+                className="text-xs sm:text-sm font-bold text-foreground hover:text-[var(--color-accent)] transition-colors tracking-wide break-all"
               >
                 {portfolioConfig.socials.email}
               </a>
@@ -166,8 +166,8 @@ export default function Footer() {
             © {currentYear} {portfolioConfig.personal.fullName}. Crafted with ❤️ using React & Vite.
           </p>
           <div className="flex gap-6 text-[10px] font-black uppercase tracking-widest text-foreground/45">
-            <Link to="/skills" className="hover:text-white transition-colors duration-300">Skills</Link>
-            <Link to="/contact" className="hover:text-white transition-colors duration-300">Contact</Link>
+            <Link to="/skills" className="hover:text-foreground transition-colors duration-300">Skills</Link>
+            <Link to="/contact" className="hover:text-foreground transition-colors duration-300">Contact</Link>
           </div>
         </div>
 

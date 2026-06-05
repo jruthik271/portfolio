@@ -59,6 +59,20 @@
         ]
       }
     </script>
+    <script>
+      (function() {
+        try {
+          const savedMode = localStorage.getItem('portfolio-theme-mode');
+          const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+          const themeMode = savedMode || (systemPrefersDark ? 'dark' : 'light');
+          document.documentElement.classList.add(themeMode);
+          document.documentElement.classList.remove(themeMode === 'dark' ? 'light' : 'dark');
+          document.documentElement.setAttribute('data-theme-mode', themeMode);
+        } catch (e) {
+          console.error(e);
+        }
+      })();
+    </script>
 </head>
 
 <body>

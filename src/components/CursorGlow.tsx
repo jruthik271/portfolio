@@ -1,8 +1,10 @@
 import { useEffect, useState } from 'react';
 import { motion, useMotionValue, useSpring } from 'framer-motion';
+import { useTheme } from '../context/ThemeContext';
 
 export default function CursorGlow() {
   const [isMobile, setIsMobile] = useState(true);
+  const { themeMode } = useTheme();
 
   useEffect(() => {
     // Disable on touch devices
@@ -43,7 +45,9 @@ export default function CursorGlow() {
         x: cursorX,
         y: cursorY,
       }}
-      className="fixed top-0 left-0 w-12 h-12 rounded-full border border-[var(--color-accent)]/30 bg-[var(--color-accent)]/5 pointer-events-none z-50 mix-blend-screen shadow-[0_0_20px_var(--color-accent)] shadow-[rgba(168,85,247,0.25)] flex items-center justify-center"
+      className={`fixed top-0 left-0 w-12 h-12 rounded-full border border-[var(--color-accent)]/30 bg-[var(--color-accent)]/5 pointer-events-none z-50 shadow-[0_0_20px_var(--color-accent)] shadow-[rgba(168,85,247,0.25)] flex items-center justify-center ${
+        themeMode === 'dark' ? 'mix-blend-screen' : 'mix-blend-normal'
+      }`}
     >
       <div className="w-2 h-2 rounded-full bg-[var(--color-accent)] shadow-[0_0_10px_var(--color-accent)]"></div>
     </motion.div>

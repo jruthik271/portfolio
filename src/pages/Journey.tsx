@@ -117,7 +117,7 @@ export default function Journey() {
                 <div className="flex justify-center mb-2 text-foreground/45 group-hover:text-[var(--color-accent)] transition-colors">
                   <Icon size={18} />
                 </div>
-                <h4 className="text-xl sm:text-2xl font-black text-white mb-0.5 group-hover:scale-105 transition-transform duration-300">
+                <h4 className="text-xl sm:text-2xl font-black text-foreground mb-0.5 group-hover:scale-105 transition-transform duration-300">
                   {stat.value}
                 </h4>
                 <p className="text-[10px] text-foreground/50 font-black tracking-wider uppercase">
@@ -172,7 +172,7 @@ export default function Journey() {
                       <currentPlatform.icon size={30} className="animate-pulse" />
                     </div>
                     <div>
-                      <h3 className="text-2xl sm:text-3xl font-black text-white">{currentPlatform.name}</h3>
+                      <h3 className="text-2xl sm:text-3xl font-black text-foreground">{currentPlatform.name}</h3>
                       <p className="text-[10px] text-[var(--color-accent)] font-black uppercase tracking-widest">{currentPlatform.profile}</p>
                     </div>
                   </div>
@@ -182,7 +182,7 @@ export default function Journey() {
                       href={currentPlatform.link}
                       target="_blank"
                       rel="noreferrer"
-                      className="inline-flex items-center gap-1.5 px-4 py-2 bg-white/5 border border-border/80 hover:border-[var(--color-accent)]/30 rounded-full text-[10px] font-black tracking-widest uppercase text-foreground/50 hover:text-white transition-all group"
+                      className="inline-flex items-center gap-1.5 px-4 py-2 bg-foreground/5 border border-border/80 hover:border-[var(--color-accent)]/30 rounded-full text-[10px] font-black tracking-widest uppercase text-foreground/50 hover:text-foreground transition-all group"
                     >
                       View Profile <ArrowUpRight size={12} className="group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
                     </a>
@@ -198,7 +198,7 @@ export default function Journey() {
                       <div className="bg-background/45 border border-border/60 rounded-2xl p-6 text-center shadow-inner relative overflow-hidden group hover:border-[var(--color-accent)]/30 transition-all duration-300">
                         <div className="absolute top-0 right-0 w-16 h-16 bg-[var(--color-accent)]/5 blur-xl rounded-full"></div>
                         <p className="text-foreground/45 text-[10px] font-black uppercase tracking-widest mb-2">Total Solved</p>
-                        <p className="text-4xl font-black text-white font-mono tracking-tighter">
+                        <p className="text-4xl font-black text-foreground font-mono tracking-tighter">
                           {loading ? '154' : leetcodeData?.solvedTotal || '154'}
                         </p>
                         {leetcodeData && (
@@ -213,7 +213,7 @@ export default function Journey() {
                       <div className="bg-background/45 border border-border/60 rounded-2xl p-6 text-center shadow-inner relative overflow-hidden group hover:border-[var(--color-accent)]/30 transition-all duration-300">
                         <div className="absolute top-0 right-0 w-16 h-16 bg-[var(--color-accent)]/5 blur-xl rounded-full"></div>
                         <p className="text-foreground/45 text-[10px] font-black uppercase tracking-widest mb-2">Global Ranking</p>
-                        <p className="text-4xl font-black text-white font-mono tracking-tighter">
+                        <p className="text-4xl font-black text-foreground font-mono tracking-tighter">
                           {loading ? '185k' : leetcodeData?.globalRank ? `${Math.round(leetcodeData.globalRank / 1000)}k` : '185k'}
                         </p>
                         {leetcodeData && leetcodeData.contestRating > 0 && (
@@ -231,13 +231,13 @@ export default function Journey() {
                       <div className="bg-background/45 border border-border/60 rounded-2xl p-6 text-center shadow-inner relative overflow-hidden group hover:border-[var(--color-accent)]/30 transition-all duration-300">
                         <div className="absolute top-0 right-0 w-16 h-16 bg-[var(--color-accent)]/5 blur-xl rounded-full"></div>
                         <p className="text-foreground/45 text-[10px] font-black uppercase tracking-widest mb-2">Primary Focus</p>
-                        <p className="text-3xl font-black text-white font-mono uppercase tracking-tighter">Open Source</p>
+                        <p className="text-3xl font-black text-foreground font-mono uppercase tracking-tighter">Open Source</p>
                       </div>
                       
                       <div className="bg-background/45 border border-border/60 rounded-2xl p-6 text-center shadow-inner relative overflow-hidden group hover:border-[var(--color-accent)]/30 transition-all duration-300">
                         <div className="absolute top-0 right-0 w-16 h-16 bg-[var(--color-accent)]/5 blur-xl rounded-full"></div>
                         <p className="text-foreground/45 text-[10px] font-black uppercase tracking-widest mb-2">Status Metrics</p>
-                        <p className="text-3xl font-black text-white font-mono uppercase tracking-tighter">Active Sync</p>
+                        <p className="text-3xl font-black text-foreground font-mono uppercase tracking-tighter">Active Sync</p>
                       </div>
                     </>
                   )}
@@ -247,12 +247,12 @@ export default function Journey() {
                     <>
                       <div className="bg-background/45 border border-border/60 rounded-2xl p-6 text-center shadow-inner relative overflow-hidden group">
                         <p className="text-foreground/45 text-[10px] font-black uppercase tracking-widest mb-2">Performance / Stats</p>
-                        <p className="text-4xl font-black text-white font-mono tracking-tighter">Active</p>
+                        <p className="text-4xl font-black text-foreground font-mono tracking-tighter">Active</p>
                       </div>
                       
                       <div className="bg-background/45 border border-border/60 rounded-2xl p-6 text-center shadow-inner relative overflow-hidden group">
                         <p className="text-foreground/45 text-[10px] font-black uppercase tracking-widest mb-2">Rank Rating</p>
-                        <p className="text-4xl font-black text-white font-mono tracking-tighter">Profiled</p>
+                        <p className="text-4xl font-black text-foreground font-mono tracking-tighter">Profiled</p>
                       </div>
                     </>
                   )}

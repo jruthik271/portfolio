@@ -4,6 +4,7 @@ import Navbar from './components/Navbar';
 import ThemeSwitcher from './components/ThemeSwitcher';
 import ParticleBackground from './components/ParticleBackground';
 import CursorGlow from './components/CursorGlow';
+import { ThemeProvider } from './context/ThemeContext';
 
 // Lazy load page-level containers
 const Home = React.lazy(() => import('./pages/Home/Home'));
@@ -22,39 +23,41 @@ const PageLoader = () => (
 
 export default function App() {
   return (
-    <Router>
-      <div className="min-h-screen bg-background text-foreground transition-colors duration-500 overflow-x-hidden selection:bg-[var(--color-accent)] selection:text-white relative flex flex-col justify-between">
-        {/* 1. Custom Interactive Cursors */}
-        <CursorGlow />
+    <ThemeProvider>
+      <Router>
+        <div className="min-h-screen bg-background text-foreground transition-colors duration-500 overflow-x-hidden selection:bg-[var(--color-accent)] selection:text-white relative flex flex-col justify-between">
+          {/* 1. Custom Interactive Cursors */}
+          <CursorGlow />
 
-        {/* 2. Interactive Background canvas */}
-        <ParticleBackground />
+          {/* 2. Interactive Background canvas */}
+          <ParticleBackground />
 
-        {/* 3. Global Navbar */}
-        <Navbar />
-        
-        {/* 4. Isolated Router Views */}
-        <main className="relative z-10 flex-grow pt-24 pb-12 w-full">
-          <Suspense fallback={<PageLoader />}>
-            <Routes>
-              <Route path="/" element={<Home />} />
-              <Route path="/about" element={<About />} />
-              <Route path="/skills" element={<Skills />} />
-              <Route path="/work" element={<Work />} />
-              <Route path="/journey" element={<Journey />} />
-              <Route path="/contact" element={<Contact />} />
-              {/* Fallback to home */}
-              <Route path="*" element={<Navigate to="/" replace />} />
-            </Routes>
-          </Suspense>
-        </main>
+          {/* 3. Global Navbar */}
+          <Navbar />
+          
+          {/* 4. Isolated Router Views */}
+          <main className="relative z-10 flex-grow pt-24 pb-12 w-full">
+            <Suspense fallback={<PageLoader />}>
+              <Routes>
+                <Route path="/" element={<Home />} />
+                <Route path="/about" element={<About />} />
+                <Route path="/skills" element={<Skills />} />
+                <Route path="/work" element={<Work />} />
+                <Route path="/journey" element={<Journey />} />
+                <Route path="/contact" element={<Contact />} />
+                {/* Fallback to home */}
+                <Route path="*" element={<Navigate to="/" replace />} />
+              </Routes>
+            </Suspense>
+          </main>
 
-        {/* 5. Theme Settings Drawer */}
-        <ThemeSwitcher />
+          {/* 5. Theme Settings Drawer */}
+          <ThemeSwitcher />
 
-        {/* 6. Footer section */}
-        <Footer />
-      </div>
-    </Router>
+          {/* 6. Footer section */}
+          <Footer />
+        </div>
+      </Router>
+    </ThemeProvider>
   );
 }

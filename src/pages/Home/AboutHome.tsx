@@ -98,13 +98,13 @@ export default function AboutHome() {
                   <svg className="w-16 h-16 opacity-50 mb-3 animate-pulse" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
                     <path d="M12 14a5 5 0 100-10 5 5 0 000 10zM12 17c-4.418 0-8 2.239-8 5v1h16v-1c0-2.761-3.582-5-8-5z" strokeLinecap="round" strokeLinejoin="round" />
                   </svg>
-                  <span className="text-[10px] font-black tracking-widest uppercase text-white/50">J. Sumanth</span>
+                  <span className="text-[10px] font-black tracking-widest uppercase text-foreground/50">J. Sumanth</span>
                   <span className="text-[8px] text-[var(--color-accent)] font-bold mt-1 uppercase tracking-widest font-mono">&lt;AI/ML & DEV&gt;</span>
                 </div>
 
                 {/* Bottom details tag overlay on photo (Matching Picture 2) */}
                 <div className="absolute bottom-4 left-4 right-4 bg-background/85 border border-border/80 p-4 rounded-2xl backdrop-blur-xl z-20 shadow-xl">
-                  <h4 className="text-xs font-black text-white uppercase tracking-wider">{portfolioConfig.personal.fullName}</h4>
+                  <h4 className="text-xs font-black text-foreground uppercase tracking-wider">{portfolioConfig.personal.fullName}</h4>
                   <p className="text-[9px] text-[var(--color-accent)] font-black uppercase tracking-widest mt-0.5">
                     {portfolioConfig.personal.subRole} & Dev
                   </p>
@@ -119,13 +119,13 @@ export default function AboutHome() {
                 {/* Badge 1: Hours Coded */}
                 <motion.div
                   whileHover={{ scale: 1.05, x: 5 }}
-                  className="bg-background/90 border border-white/10 px-4 py-2.5 rounded-2xl backdrop-blur-xl shadow-2xl flex items-center gap-3 cursor-pointer min-w-[170px]"
+                  className="bg-background/90 border border-border px-4 py-2.5 rounded-2xl backdrop-blur-xl shadow-2xl flex items-center gap-3 cursor-pointer min-w-[170px]"
                 >
                   <div className="p-2 bg-blue-500/10 rounded-xl text-blue-400 shrink-0">
                     <Terminal size={14} />
                   </div>
                   <div className="text-left">
-                    <span className="block text-xs font-black text-white leading-none">4,055+</span>
+                    <span className="block text-xs font-black text-foreground leading-none">4,055+</span>
                     <span className="text-[8px] text-foreground/40 font-bold uppercase tracking-wider mt-0.5 block">Hours Coded</span>
                   </div>
                 </motion.div>
@@ -133,13 +133,13 @@ export default function AboutHome() {
                 {/* Badge 2: Projects Shipped */}
                 <motion.div
                   whileHover={{ scale: 1.05, x: 5 }}
-                  className="bg-background/90 border border-white/10 px-4 py-2.5 rounded-2xl backdrop-blur-xl shadow-2xl flex items-center gap-3 cursor-pointer min-w-[170px]"
+                  className="bg-background/90 border border-border px-4 py-2.5 rounded-2xl backdrop-blur-xl shadow-2xl flex items-center gap-3 cursor-pointer min-w-[170px]"
                 >
                   <div className="p-2 bg-purple-500/10 rounded-xl text-purple-400 shrink-0">
                     <Rocket size={14} />
                   </div>
                   <div className="text-left">
-                    <span className="block text-xs font-black text-white leading-none">
+                    <span className="block text-xs font-black text-foreground leading-none">
                       {loading ? '12+' : `${stats.githubRepos}+`}
                     </span>
                     <span className="text-[8px] text-foreground/40 font-bold uppercase tracking-wider mt-0.5 block">Projects Shipped</span>
@@ -149,13 +149,13 @@ export default function AboutHome() {
                 {/* Badge 3: DSA Problems */}
                 <motion.div
                   whileHover={{ scale: 1.05, x: 5 }}
-                  className="bg-background/90 border border-white/10 px-4 py-2.5 rounded-2xl backdrop-blur-xl shadow-2xl flex items-center gap-3 cursor-pointer min-w-[170px]"
+                  className="bg-background/90 border border-border px-4 py-2.5 rounded-2xl backdrop-blur-xl shadow-2xl flex items-center gap-3 cursor-pointer min-w-[170px]"
                 >
                   <div className="p-2 bg-green-500/10 rounded-xl text-green-400 shrink-0">
                     <CheckCircle size={14} />
                   </div>
                   <div className="text-left">
-                    <span className="block text-xs font-black text-white leading-none">
+                    <span className="block text-xs font-black text-foreground leading-none">
                       {loading ? '700+' : `${stats.leetcodeSolved + stats.gfgSolved + 550}+`}
                     </span>
                     <span className="text-[8px] text-foreground/40 font-bold uppercase tracking-wider mt-0.5 block">DSA Problems</span>
@@ -175,7 +175,7 @@ export default function AboutHome() {
               transition={{ duration: 0.8 }}
             >
               {/* Heading */}
-              <h2 className="text-3xl sm:text-5xl font-black mb-6 uppercase tracking-tight text-white leading-[1.05]">
+              <h2 className="text-3xl sm:text-5xl font-black mb-6 uppercase tracking-tight text-foreground leading-[1.05]">
                 Turning Ideas Into <span className="text-transparent bg-clip-text bg-gradient-to-r from-red-400 via-orange-400 to-amber-300">Reality</span>
               </h2>
 
@@ -192,7 +192,7 @@ export default function AboutHome() {
                   {techStack.map((tech) => (
                     <span
                       key={tech}
-                      className="px-3.5 py-2 bg-white/[0.03] hover:bg-white/[0.06] border border-white/5 hover:border-[var(--color-accent)]/30 rounded-xl text-xs font-bold text-foreground/75 hover:text-white uppercase tracking-wider transition-colors duration-300 cursor-default"
+                      className="px-3.5 py-2 bg-card hover:bg-card-hover border border-border hover:border-[var(--color-accent)]/30 rounded-xl text-xs font-bold text-foreground/75 hover:text-foreground uppercase tracking-wider transition-colors duration-300 cursor-default"
                     >
                       {tech}
                     </span>
@@ -215,7 +215,7 @@ export default function AboutHome() {
                     href={portfolioConfig.socials.github}
                     target="_blank"
                     rel="noreferrer"
-                    className="text-foreground/45 hover:text-white p-2 border border-border/80 rounded-full hover:border-[var(--color-accent)]/30 transition-all duration-300"
+                    className="text-foreground/45 hover:text-foreground p-2 border border-border/80 rounded-full hover:border-[var(--color-accent)]/30 transition-all duration-300"
                   >
                     <Github size={16} />
                   </a>
@@ -223,7 +223,7 @@ export default function AboutHome() {
                     href={portfolioConfig.socials.linkedin}
                     target="_blank"
                     rel="noreferrer"
-                    className="text-foreground/45 hover:text-white p-2 border border-border/80 rounded-full hover:border-[var(--color-accent)]/30 transition-all duration-300"
+                    className="text-foreground/45 hover:text-foreground p-2 border border-border/80 rounded-full hover:border-[var(--color-accent)]/30 transition-all duration-300"
                   >
                     <Linkedin size={16} />
                   </a>

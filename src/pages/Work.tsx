@@ -139,13 +139,13 @@ export default function Work() {
                     <Icon size={24} />
                   </div>
                   
-                  <h3 className="text-2xl font-black mb-3 relative z-10 group-hover:text-white transition-colors">{project.title}</h3>
+                  <h3 className="text-2xl font-black mb-3 relative z-10 text-foreground group-hover:text-[var(--color-accent)] transition-colors">{project.title}</h3>
                   <p className="text-foreground/50 text-sm leading-relaxed mb-6 relative z-10 line-clamp-3 flex-grow font-medium">{project.desc}</p>
                   
                   {/* Floating Tags */}
                   <div className="flex flex-wrap gap-2 mb-6 relative z-10">
                     {project.tags.slice(0, 3).map((tag, tIdx) => (
-                      <span key={tIdx} className="px-2.5 py-1 bg-white/5 border border-border/40 rounded-lg text-[9px] font-black tracking-wider uppercase text-foreground/50">
+                      <span key={tIdx} className="px-2.5 py-1 bg-foreground/5 border border-border/40 rounded-lg text-[9px] font-black tracking-wider uppercase text-foreground/50">
                         {tag}
                       </span>
                     ))}
@@ -154,11 +154,11 @@ export default function Work() {
                   {/* Actions overlay footer */}
                   <div className="flex items-center justify-between text-xs font-black relative z-10 w-full uppercase mt-auto pt-4 border-t border-border/30">
                     {stats ? (
-                      <span className="flex items-center gap-1.5 text-foreground/45 group-hover:text-white transition-colors">
+                      <span className="flex items-center gap-1.5 text-foreground/45 group-hover:text-foreground transition-colors">
                         <Star size={14} className="text-yellow-500" /> {stats.stargazers_count} Stars
                       </span>
                     ) : (
-                      <span className="text-foreground/45 group-hover:text-white transition-colors">View Details</span>
+                      <span className="text-foreground/45 group-hover:text-foreground transition-colors">View Details</span>
                     )}
                     <span className="text-[var(--color-accent)] opacity-0 group-hover:opacity-100 group-hover:translate-x-1 transition-all duration-300 flex items-center gap-1 shrink-0">
                       Explore <ArrowUpRight size={14} />
@@ -195,7 +195,7 @@ export default function Work() {
                 >
                   <div className="absolute top-0 right-0 w-12 h-12 bg-[var(--color-accent)]/5 blur-xl rounded-full opacity-0 group-hover:opacity-100 transition-opacity"></div>
                   <div>
-                    <h4 className="font-black text-lg mb-2 text-[var(--color-accent)] group-hover:text-white transition-colors">{repo.name}</h4>
+                    <h4 className="font-black text-lg mb-2 text-[var(--color-accent)] group-hover:text-foreground transition-colors">{repo.name}</h4>
                     <p className="text-foreground/50 text-xs sm:text-sm mb-6 line-clamp-3 min-h-[50px] font-medium leading-relaxed">{repo.description || "No description provided."}</p>
                   </div>
                   
@@ -248,8 +248,8 @@ export default function Work() {
                     <selectedProject.icon size={20} />
                   </div>
                   <div>
-                    <h3 className="text-2xl font-black text-white">{selectedProject.title}</h3>
-                    <span className="px-2.5 py-1 bg-white/5 border border-border rounded-lg text-[9px] font-black tracking-wider uppercase text-[var(--color-accent)] bg-[var(--color-accent)]/10">
+                    <h3 className="text-2xl font-black text-foreground">{selectedProject.title}</h3>
+                    <span className="px-2.5 py-1 border border-border rounded-lg text-[9px] font-black tracking-wider uppercase text-[var(--color-accent)] bg-[var(--color-accent)]/10">
                       {selectedProject.category}
                     </span>
                   </div>

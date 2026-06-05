@@ -59,8 +59,22 @@
         ]
       }
     </script>
-  <script type="module" crossorigin src="/portfolio/assets/index-BiDUs7PQ.js"></script>
-  <link rel="stylesheet" crossorigin href="/portfolio/assets/index-CtHy6jsu.css">
+    <script>
+      (function() {
+        try {
+          const savedMode = localStorage.getItem('portfolio-theme-mode');
+          const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+          const themeMode = savedMode || (systemPrefersDark ? 'dark' : 'light');
+          document.documentElement.classList.add(themeMode);
+          document.documentElement.classList.remove(themeMode === 'dark' ? 'light' : 'dark');
+          document.documentElement.setAttribute('data-theme-mode', themeMode);
+        } catch (e) {
+          console.error(e);
+        }
+      })();
+    </script>
+  <script type="module" crossorigin src="/portfolio/assets/index-BesGlgIO.js"></script>
+  <link rel="stylesheet" crossorigin href="/portfolio/assets/index-C2tvquga.css">
 </head>
 
 <body>

@@ -1,7 +1,9 @@
 import { useEffect, useRef } from 'react';
+import { useTheme } from '../context/ThemeContext';
 
 export default function ParticleBackground() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const { themeMode } = useTheme();
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -14,6 +16,9 @@ export default function ParticleBackground() {
     let particles: Particle[] = [];
     let isVisible = true;
 
+    const isLight = themeMode === 'light';
+    const colorPrefix = isLight ? '15, 23, 42' : '255, 255, 255'; // Use slate-900 in light mode and white in dark mode
+
     const setCanvasSize = () => {
       canvas.width = window.innerWidth;
       canvas.height = window.innerHeight;
@@ -22,7 +27,6 @@ export default function ParticleBackground() {
     setCanvasSize();
     window.addEventListener('resize', setCanvasSize);
 
-    // Visibility Observer to save performance
     const observer = new IntersectionObserver(
       ([entry]) => {
         isVisible = entry.isIntersecting;
@@ -59,15 +63,14 @@ export default function ParticleBackground() {
         if (!ctx) return;
         ctx.beginPath();
         ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
-        // Using computed HSL accent to shade particles slightly
-        ctx.fillStyle = 'rgba(255, 255, 255, 0.08)';
+        ctx.fillStyle = `rgba(${colorPrefix}, ${isLight ? '0.04' : '0.08'})`;
         ctx.fill();
       }
     }
 
     const initParticles = () => {
       particles = [];
-      const density = Math.floor((canvas.width * canvas.height) / 22000); // Optimized count
+      const density = Math.floor((canvas.width * canvas.height) / 22000);
       for (let i = 0; i < density; i++) {
         particles.push(new Particle());
       }
@@ -84,7 +87,6 @@ export default function ParticleBackground() {
           particle.update();
           particle.draw();
 
-          // Optimized line connections with viewport bounds
           for (let j = i + 1; j < particles.length; j++) {
             const dx = particle.x - particles[j].x;
             const dy = particle.y - particles[j].y;
@@ -92,8 +94,7 @@ export default function ParticleBackground() {
 
             if (distance < 90) {
               ctx.beginPath();
-              // Fade connection line based on proximity
-              ctx.strokeStyle = `rgba(255, 255, 255, ${0.05 * (1 - distance / 90)})`;
+              ctx.strokeStyle = `rgba(${colorPrefix}, ${(isLight ? 0.03 : 0.05) * (1 - distance / 90)})`;
               ctx.lineWidth = 0.5;
               ctx.moveTo(particle.x, particle.y);
               ctx.lineTo(particles[j].x, particles[j].y);
@@ -113,12 +114,12 @@ export default function ParticleBackground() {
       cancelAnimationFrame(animationFrameId);
       observer.disconnect();
     };
-  }, []);
+  }, [themeMode]);
 
   return (
     <canvas
       ref={canvasRef}
-      className="fixed inset-0 z-[-1] pointer-events-none opacity-50 bg-[#02000d]"
+      className="fixed inset-0 z-[-1] pointer-events-none opacity-60"
     />
   );
 }

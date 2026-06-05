@@ -63,7 +63,7 @@ export default function ThemeSwitcher() {
                   onClick={() => setTheme(theme.id)}
                   className={`w-full flex items-center p-3 rounded-2xl transition-all duration-300 border ${
                     currentTheme === theme.id
-                      ? 'bg-[var(--color-accent)]/10 border-[var(--color-accent)] text-white'
+                      ? 'bg-[var(--color-accent)]/10 border-[var(--color-accent)] text-[var(--color-accent)] font-black'
                       : 'hover:bg-card border-transparent text-foreground/75 hover:text-foreground'
                   }`}
                 >

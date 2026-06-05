@@ -109,7 +109,7 @@ export default function Contact() {
               </div>
               <div className="ml-6">
                 <p className="text-[10px] text-foreground/45 font-black uppercase tracking-widest mb-0.5">Email Connection</p>
-                <p className="text-base sm:text-lg font-black text-white leading-none">{portfolioConfig.socials.email}</p>
+                <p className="text-base sm:text-lg font-black text-foreground leading-none">{portfolioConfig.socials.email}</p>
               </div>
             </motion.div>
 
@@ -126,7 +126,7 @@ export default function Contact() {
               </div>
               <div className="ml-6">
                 <p className="text-[10px] text-foreground/45 font-black uppercase tracking-widest mb-0.5">Phone Line</p>
-                <p className="text-base sm:text-lg font-black text-white leading-none">{portfolioConfig.socials.phone}</p>
+                <p className="text-base sm:text-lg font-black text-foreground leading-none">{portfolioConfig.socials.phone}</p>
               </div>
             </motion.div>
 
@@ -143,7 +143,7 @@ export default function Contact() {
               </div>
               <div className="ml-6">
                 <p className="text-[10px] text-foreground/45 font-black uppercase tracking-widest mb-0.5">Primary Location</p>
-                <p className="text-base sm:text-lg font-black text-white leading-none">{portfolioConfig.socials.location}</p>
+                <p className="text-base sm:text-lg font-black text-foreground leading-none">{portfolioConfig.socials.location}</p>
               </div>
             </motion.div>
           </div>

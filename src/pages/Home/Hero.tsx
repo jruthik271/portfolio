@@ -74,14 +74,14 @@ export default function Hero() {
 
             {/* Title Header (Matching Picture 3 layout) */}
             <motion.h1
-              className="text-4xl sm:text-6xl md:text-7xl font-black tracking-tight mb-4 leading-[1.1] text-white"
+              className="text-4xl sm:text-6xl md:text-7xl font-black tracking-tight mb-4 leading-[1.1] text-foreground"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.7, ease: 'easeOut' }}
             >
               I'm <span className="text-transparent bg-clip-text bg-gradient-to-r from-red-400 via-orange-400 to-amber-300">{portfolioConfig.personal.name}</span>
               <br />
-              <span className="text-white">Flutter & AI/ML Developer</span>
+              <span className="text-foreground">Flutter & AI/ML Developer</span>
             </motion.h1>
 
             {/* Description Subtext */}
@@ -102,7 +102,7 @@ export default function Hero() {
               transition={{ delay: 0.2, duration: 0.8 }}
             >
               <div className="flex flex-col">
-                <span className="text-3xl md:text-4xl font-black text-white font-mono tracking-tighter">
+                <span className="text-3xl md:text-4xl font-black text-foreground font-mono tracking-tighter">
                   {loading ? '150+' : `${stats.leetcodeSolved}+`}
                 </span>
                 <span className="text-[10px] font-black text-foreground/45 uppercase tracking-wider mt-1">
@@ -111,7 +111,7 @@ export default function Hero() {
               </div>
 
               <div className="flex flex-col">
-                <span className="text-3xl md:text-4xl font-black text-white font-mono tracking-tighter">
+                <span className="text-3xl md:text-4xl font-black text-foreground font-mono tracking-tighter">
                   1+
                 </span>
                 <span className="text-[10px] font-black text-foreground/45 uppercase tracking-wider mt-1">
@@ -120,7 +120,7 @@ export default function Hero() {
               </div>
 
               <div className="flex flex-col">
-                <span className="text-3xl md:text-4xl font-black text-white font-mono tracking-tighter">
+                <span className="text-3xl md:text-4xl font-black text-foreground font-mono tracking-tighter">
                   {loading ? '3+' : `${stats.githubRepos}+`}
                 </span>
                 <span className="text-[10px] font-black text-foreground/45 uppercase tracking-wider mt-1">
@@ -136,12 +136,12 @@ export default function Hero() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.25 }}
             >
-              {/* VIEW RESUME: White Button opening PDF */}
+              {/* VIEW RESUME: Theme-aware high contrast Button opening PDF */}
               <a
                 href={`${import.meta.env.BASE_URL}resume.pdf`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="px-8 py-3.5 rounded-full bg-white text-black font-black tracking-widest text-xs uppercase shadow-[0_4px_20px_rgba(255,255,255,0.1)] hover:bg-white/90 hover:scale-[1.02] transition-all flex items-center justify-center w-full sm:w-auto text-center"
+                className="px-8 py-3.5 rounded-full bg-foreground text-background font-black tracking-widest text-xs uppercase shadow-md hover:scale-[1.02] transition-all flex items-center justify-center w-full sm:w-auto text-center border border-border"
               >
                 <FileText size={14} className="mr-2" /> View Resume
               </a>
@@ -149,7 +149,7 @@ export default function Hero() {
               {/* DOWNLOAD RESUME: Red/Accent Button downloading PDF */}
               <a
                 href={resumeService.getDownloadUrl()}
-                className="px-8 py-3.5 rounded-full bg-[var(--color-accent)] text-white font-black tracking-widest text-xs uppercase shadow-[0_4px_25px_rgba(168,85,247,0.15)] hover:bg-[var(--color-accent)]/90 hover:scale-[1.02] transition-all flex items-center justify-center w-full sm:w-auto text-center border border-transparent hover:border-white/10"
+                className="px-8 py-3.5 rounded-full bg-[var(--color-accent)] text-white font-black tracking-widest text-xs uppercase shadow-[0_4px_25px_rgba(168,85,247,0.15)] hover:bg-[var(--color-accent)]/90 hover:scale-[1.02] transition-all flex items-center justify-center w-full sm:w-auto text-center border border-transparent hover:border-border/30"
               >
                 <Download size={14} className="mr-2" /> Download Resume
               </a>
@@ -185,11 +185,11 @@ export default function Hero() {
                 />
 
                 {/* Vector developer fallback inside glass rim if image fails */}
-                <div className="avatar-fallback hidden flex flex-col items-center justify-center p-6 text-center aspect-[3/4] w-full rounded-[32px] bg-gradient-to-tr from-[var(--color-accent)]/10 to-blue-500/10 text-[var(--color-accent)] border border-white/10 shadow-2xl">
+                <div className="avatar-fallback hidden flex flex-col items-center justify-center p-6 text-center aspect-[3/4] w-full rounded-[32px] bg-gradient-to-tr from-[var(--color-accent)]/10 to-blue-500/10 text-[var(--color-accent)] border border-border shadow-2xl">
                   <svg className="w-14 h-14 opacity-50 mb-3 animate-pulse" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
                     <path d="M12 14a5 5 0 100-10 5 5 0 000 10zM12 17c-4.418 0-8 2.239-8 5v1h16v-1c0-2.761-3.582-5-8-5z" strokeLinecap="round" strokeLinejoin="round" />
                   </svg>
-                  <span className="text-[10px] font-black tracking-widest uppercase text-white/50">J. Sumanth</span>
+                  <span className="text-[10px] font-black tracking-widest uppercase text-foreground/50">J. Sumanth</span>
                   <span className="text-[8px] text-[var(--color-accent)] font-bold mt-1 uppercase tracking-widest font-mono">&lt;AI/ML & DEV&gt;</span>
                 </div>
               </div>

@@ -77,7 +77,7 @@ export default function About() {
               </div>
 
               {/* Spectacular Heading */}
-              <h2 className="text-4xl sm:text-5xl md:text-6xl font-black mb-6 uppercase tracking-tight text-white leading-[1.05]">
+              <h2 className="text-4xl sm:text-5xl md:text-6xl font-black mb-6 uppercase tracking-tight text-foreground leading-[1.05]">
                 Building solutions <br />
                 that <span className="text-transparent bg-clip-text bg-gradient-to-r from-red-400 via-orange-400 to-amber-300">matter</span> and <br />
                 impact <span className="text-transparent bg-clip-text bg-gradient-to-r from-red-400 via-orange-400 to-amber-300">lives</span>
@@ -130,13 +130,13 @@ export default function About() {
                       key={tab.id}
                       onClick={() => setActiveTab(tab.id as TabType)}
                       className={`relative px-4 py-2 rounded-xl text-xs font-black tracking-widest uppercase transition-all duration-300 flex items-center gap-1.5 ${
-                        isActive ? 'text-white' : 'text-foreground/45 hover:text-white'
+                        isActive ? 'text-foreground' : 'text-foreground/45 hover:text-foreground'
                       }`}
                     >
                       {isActive && (
                         <motion.span
                           layoutId="activeTabUnderline"
-                          className="absolute inset-0 bg-white/[0.04] border border-white/10 rounded-xl shadow-lg z-0"
+                          className="absolute inset-0 bg-card border border-border rounded-xl shadow-lg z-0"
                           transition={{ type: 'spring', stiffness: 350, damping: 28 }}
                         />
                       )}
@@ -150,7 +150,7 @@ export default function About() {
               </div>
 
               {/* Dynamic Scrollable Content Timeline Container */}
-              <div className="relative max-h-[380px] overflow-y-auto pr-4 scrollbar-thin scrollbar-thumb-white/5 scrollbar-track-transparent text-left">
+              <div className="relative max-h-[380px] overflow-y-auto pr-4 scrollbar-thin scrollbar-thumb-foreground/10 scrollbar-track-transparent text-left">
                 <AnimatePresence mode="wait">
                   <motion.div
                     key={activeTab}
@@ -181,14 +181,14 @@ export default function About() {
                           
                           <div className="space-y-2">
                             <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1">
-                              <h4 className="text-sm font-black text-white uppercase tracking-wider group-hover:text-orange-400 transition-colors">
+                              <h4 className="text-sm font-black text-foreground uppercase tracking-wider group-hover:text-orange-400 transition-colors">
                                 {item.role}
                               </h4>
                               <span className="text-[9px] font-black uppercase tracking-widest text-[var(--color-accent)] bg-[var(--color-accent)]/10 px-2 py-0.5 rounded-md border border-[var(--color-accent)]/20 w-fit">
                                 {item.duration}
                               </span>
                             </div>
-                            <span className="block text-xs font-bold text-white/60 tracking-wider">
+                            <span className="block text-xs font-bold text-foreground/60 tracking-wider">
                               {item.company}
                             </span>
                             <ul className="list-disc pl-4 space-y-1 text-xs text-foreground/55 font-medium leading-relaxed">
@@ -217,12 +217,12 @@ export default function About() {
                             
                             <div className="flex items-start justify-between gap-4">
                               <div className="space-y-1">
-                                <h4 className="text-sm font-black text-white uppercase tracking-wider group-hover:text-orange-400 transition-colors leading-snug">
+                                <h4 className="text-sm font-black text-foreground uppercase tracking-wider group-hover:text-orange-400 transition-colors leading-snug">
                                   {item}
                                 </h4>
                                 <p className="text-[9px] text-foreground/35 font-bold uppercase tracking-wider">Click to Verify Badge</p>
                               </div>
-                              <div className="text-foreground/45 group-hover:text-white p-1.5 rounded-lg border border-white/5 bg-white/[0.02] group-hover:border-orange-500/30 transition-all shrink-0">
+                              <div className="text-foreground/45 group-hover:text-foreground p-1.5 rounded-lg border border-border bg-card group-hover:border-orange-500/30 transition-all shrink-0">
                                 <ExternalLink size={12} />
                               </div>
                             </div>
@@ -239,7 +239,7 @@ export default function About() {
                           
                           <div className="space-y-2">
                             <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1">
-                              <h4 className="text-sm font-black text-white uppercase tracking-wider group-hover:text-orange-400 transition-colors">
+                              <h4 className="text-sm font-black text-foreground uppercase tracking-wider group-hover:text-orange-400 transition-colors">
                                 {item.degree}
                               </h4>
                               <span className="text-[9px] font-black uppercase tracking-widest text-[var(--color-accent)] bg-[var(--color-accent)]/10 px-2 py-0.5 rounded-md border border-[var(--color-accent)]/20 w-fit">

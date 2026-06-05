@@ -3,15 +3,11 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Terminal, Code2, Globe, Database, ArrowUpRight, Award, Milestone } from 'lucide-react';
 import { portfolioConfig } from '../config/portfolio';
 
-interface LeetcodeStatsAPI {
-  solvedTotal: number;
-  solvedEasy: number;
-  solvedMedium: number;
-  solvedHard: number;
-  globalRank: number;
-  contestRating: number;
-  streak: number;
-}
+import { leetcodeService, LeetcodeStats } from '../services/leetcodeService';
+import { githubService } from '../services/githubService';
+import { resumeService } from '../services/resumeService';
+
+interface LeetcodeStatsAPI extends LeetcodeStats {}
 
 export default function Journey() {
   const [leetcodeData, setLeetcodeData] = useState<LeetcodeStatsAPI | null>(null);
@@ -26,32 +22,27 @@ export default function Journey() {
   useEffect(() => {
     const fetchAllStats = async () => {
       try {
-        const [leetcodeRes, githubRes, resumeRes] = await Promise.all([
-          fetch('http://localhost:5000/api/leetcode/stats'),
-          fetch('http://localhost:5000/api/github/repos'),
-          fetch('http://localhost:5000/api/resume/stats')
+        const [leetcode, repos, resume] = await Promise.all([
+          leetcodeService.getStats().catch(() => null),
+          githubService.getRepos().catch(() => null),
+          resumeService.getStats().catch(() => null)
         ]);
 
         let solved = 154;
         let repoCount = 6;
         let downloads = 0;
 
-        if (leetcodeRes.ok) {
-          const leetcode = await leetcodeRes.json();
-          if (leetcode && leetcode.solvedTotal) {
-            solved = leetcode.solvedTotal;
-            setLeetcodeData(leetcode);
-          }
+        if (leetcode && leetcode.solvedTotal) {
+          solved = leetcode.solvedTotal;
+          setLeetcodeData(leetcode);
         }
 
-        if (githubRes.ok) {
-          const repos = await githubRes.json();
-          if (Array.isArray(repos)) repoCount = repos.length;
+        if (repos && Array.isArray(repos)) {
+          repoCount = repos.length;
         }
 
-        if (resumeRes.ok) {
-          const resume = await resumeRes.json();
-          if (resume.count !== undefined) downloads = resume.count;
+        if (resume && resume.count !== undefined) {
+          downloads = resume.count;
         }
 
         setStats({

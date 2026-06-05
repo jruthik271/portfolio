@@ -1,8 +1,11 @@
 import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import { Compass, Globe, Rocket, CheckCircle, Terminal, Github, Linkedin } from 'lucide-react';
-import { portfolioConfig } from '../config/portfolio';
+import { portfolioConfig } from '../../config/portfolio';
 import { Link } from 'react-router-dom';
+import { githubService } from '../../services/githubService';
+import { leetcodeService } from '../../services/leetcodeService';
+import { geeksforgeeksService } from '../../services/geeksforgeeksService';
 
 export default function AboutHome() {
   const techStack = [
@@ -20,28 +23,19 @@ export default function AboutHome() {
   useEffect(() => {
     const fetchLiveStats = async () => {
       try {
-        const [githubRes, leetcodeRes, gfgRes] = await Promise.all([
-          fetch('http://localhost:5000/api/github/repos'),
-          fetch('http://localhost:5000/api/leetcode/stats'),
-          fetch('http://localhost:5000/api/geeksforgeeks/stats')
+        const [githubRepos, leetcodeStats, gfgStats] = await Promise.all([
+          githubService.getRepos().catch(() => null),
+          leetcodeService.getStats().catch(() => null),
+          geeksforgeeksService.getStats().catch(() => null)
         ]);
 
         let repos = 12;
         let leetcode = 155;
         let gfg = 2;
 
-        if (githubRes.ok) {
-          const reposData = await githubRes.json();
-          if (Array.isArray(reposData)) repos = reposData.length;
-        }
-        if (leetcodeRes.ok) {
-          const leetcodeData = await leetcodeRes.json();
-          if (leetcodeData.solvedTotal) leetcode = leetcodeData.solvedTotal;
-        }
-        if (gfgRes.ok) {
-          const gfgData = await gfgRes.json();
-          if (gfgData.solvedTotal) gfg = gfgData.solvedTotal;
-        }
+        if (githubRepos && Array.isArray(githubRepos)) repos = githubRepos.length;
+        if (leetcodeStats && leetcodeStats.solvedTotal) leetcode = leetcodeStats.solvedTotal;
+        if (gfgStats && gfgStats.solvedTotal) gfg = gfgStats.solvedTotal;
 
         setStats({
           githubRepos: repos,

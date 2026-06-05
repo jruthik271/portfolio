@@ -2,6 +2,8 @@ import { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Award, Briefcase, GraduationCap, Compass, BookOpen, ExternalLink } from 'lucide-react';
 import { portfolioConfig } from '../config/portfolio';
+import { leetcodeService } from '../services/leetcodeService';
+import { geeksforgeeksService } from '../services/geeksforgeeksService';
 
 type TabType = 'achievements' | 'experience' | 'credentials' | 'education';
 
@@ -21,23 +23,16 @@ export default function About() {
   useEffect(() => {
     const fetchStats = async () => {
       try {
-        const [leetcodeRes, gfgRes] = await Promise.all([
-          fetch('http://localhost:5000/api/leetcode/stats'),
-          fetch('http://localhost:5000/api/geeksforgeeks/stats')
+        const [leetcodeStats, gfgStats] = await Promise.all([
+          leetcodeService.getStats().catch(() => null),
+          geeksforgeeksService.getStats().catch(() => null)
         ]);
 
         let leetcode = 155;
         let gfg = 2;
 
-        if (leetcodeRes.ok) {
-          const leetcodeData = await leetcodeRes.json();
-          if (leetcodeData.solvedTotal) leetcode = leetcodeData.solvedTotal;
-        }
-
-        if (gfgRes.ok) {
-          const gfgData = await gfgRes.json();
-          if (gfgData.solvedTotal) gfg = gfgData.solvedTotal;
-        }
+        if (leetcodeStats && leetcodeStats.solvedTotal) leetcode = leetcodeStats.solvedTotal;
+        if (gfgStats && gfgStats.solvedTotal) gfg = gfgStats.solvedTotal;
 
         setSolvedCount(leetcode + gfg + 650);
       } catch (err) {

@@ -1,18 +1,17 @@
 import React, { Suspense } from 'react';
 import { HashRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import Navbar from './components/Navbar';
-import Hero from './components/Hero';
 import ThemeSwitcher from './components/ThemeSwitcher';
 import ParticleBackground from './components/ParticleBackground';
 import CursorGlow from './components/CursorGlow';
 
-// Lazy load below the fold components
-const About = React.lazy(() => import('./components/About'));
-const AboutHome = React.lazy(() => import('./components/AboutHome'));
-const Skills = React.lazy(() => import('./components/Skills'));
-const Work = React.lazy(() => import('./components/Work'));
-const Journey = React.lazy(() => import('./components/Journey'));
-const Contact = React.lazy(() => import('./components/Contact'));
+// Lazy load page-level containers
+const Home = React.lazy(() => import('./pages/Home/Home'));
+const About = React.lazy(() => import('./pages/About'));
+const Skills = React.lazy(() => import('./pages/Skills'));
+const Work = React.lazy(() => import('./pages/Work'));
+const Journey = React.lazy(() => import('./pages/Journey'));
+const Contact = React.lazy(() => import('./pages/Contact'));
 const Footer = React.lazy(() => import('./components/Footer'));
 
 const PageLoader = () => (
@@ -38,12 +37,7 @@ export default function App() {
         <main className="relative z-10 flex-grow pt-24 pb-12 w-full">
           <Suspense fallback={<PageLoader />}>
             <Routes>
-              <Route path="/" element={
-                <>
-                  <Hero />
-                  <AboutHome />
-                </>
-              } />
+              <Route path="/" element={<Home />} />
               <Route path="/about" element={<About />} />
               <Route path="/skills" element={<Skills />} />
               <Route path="/work" element={<Work />} />

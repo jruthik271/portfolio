@@ -3,6 +3,8 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Github, Star, GitFork, Search, ArrowUpRight, X, ExternalLink } from 'lucide-react';
 import { portfolioConfig, ProjectItem } from '../config/portfolio';
 
+import { githubService } from '../services/githubService';
+
 interface GithubRepoStats {
   name: string;
   stargazers_count: number;
@@ -20,23 +22,18 @@ export default function Work() {
   useEffect(() => {
     const fetchGithubRepos = async () => {
       try {
-        const res = await fetch('http://localhost:5000/api/github/repos');
-        if (res.ok) {
-          const data = await res.json();
-          if (Array.isArray(data)) {
-            setLiveGithubRepos(data);
-            const statsMap: Record<string, GithubRepoStats> = {};
-            data.forEach((repo: any) => {
-              // Convert keys to match case-insensitive
-              statsMap[repo.name.toLowerCase()] = {
-                name: repo.name,
-                stargazers_count: repo.stargazers_count || 0,
-                forks_count: repo.forks_count || 0
-              };
-            });
-            setGithubStats(statsMap);
-          }
-        }
+        const data = await githubService.getRepos();
+        setLiveGithubRepos(data);
+        const statsMap: Record<string, GithubRepoStats> = {};
+        data.forEach((repo: any) => {
+          // Convert keys to match case-insensitive
+          statsMap[repo.name.toLowerCase()] = {
+            name: repo.name,
+            stargazers_count: repo.stargazers_count || 0,
+            forks_count: repo.forks_count || 0
+          };
+        });
+        setGithubStats(statsMap);
       } catch (err) {
         console.warn('Failed to fetch github repository stats:', err);
       }

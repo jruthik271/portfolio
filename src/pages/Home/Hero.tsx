@@ -1,7 +1,10 @@
 import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import { Download, FileText } from 'lucide-react';
-import { portfolioConfig } from '../config/portfolio';
+import { portfolioConfig } from '../../config/portfolio';
+import { githubService } from '../../services/githubService';
+import { leetcodeService } from '../../services/leetcodeService';
+import { resumeService } from '../../services/resumeService';
 
 interface APIStats {
   githubRepos: number;
@@ -18,23 +21,16 @@ export default function Hero() {
   useEffect(() => {
     const fetchStats = async () => {
       try {
-        const [githubRes, leetcodeRes] = await Promise.all([
-          fetch('http://localhost:5000/api/github/repos'),
-          fetch('http://localhost:5000/api/leetcode/stats')
+        const [repos, leetcode] = await Promise.all([
+          githubService.getRepos().catch(() => null),
+          leetcodeService.getStats().catch(() => null)
         ]);
 
         let repoCount = 3;
         let solved = 154;
 
-        if (githubRes.ok) {
-          const repos = await githubRes.json();
-          if (Array.isArray(repos)) repoCount = repos.length;
-        }
-
-        if (leetcodeRes.ok) {
-          const leetcode = await leetcodeRes.json();
-          if (leetcode.solvedTotal) solved = leetcode.solvedTotal;
-        }
+        if (repos && Array.isArray(repos)) repoCount = repos.length;
+        if (leetcode && leetcode.solvedTotal) solved = leetcode.solvedTotal;
 
         setStats({
           githubRepos: repoCount,
@@ -152,8 +148,7 @@ export default function Hero() {
 
               {/* DOWNLOAD RESUME: Red/Accent Button downloading PDF */}
               <a
-                href={`${import.meta.env.BASE_URL}resume.pdf`}
-                download="Jallipalli_Sumanth_Resume.pdf"
+                href={resumeService.getDownloadUrl()}
                 className="px-8 py-3.5 rounded-full bg-[var(--color-accent)] text-white font-black tracking-widest text-xs uppercase shadow-[0_4px_25px_rgba(168,85,247,0.15)] hover:bg-[var(--color-accent)]/90 hover:scale-[1.02] transition-all flex items-center justify-center w-full sm:w-auto text-center border border-transparent hover:border-white/10"
               >
                 <Download size={14} className="mr-2" /> Download Resume

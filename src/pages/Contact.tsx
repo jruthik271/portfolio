@@ -3,6 +3,8 @@ import { motion } from 'framer-motion';
 import { Mail, Phone, MapPin, Send, CheckCircle2, AlertCircle } from 'lucide-react';
 import { portfolioConfig } from '../config/portfolio';
 
+import { contactService } from '../services/contactService';
+
 interface FormState {
   name: string;
   email: string;
@@ -43,26 +45,22 @@ export default function Contact() {
     setStatus({ loading: true, message: '', isError: false, success: false });
     
     try {
-      const res = await fetch('http://localhost:5000/api/contact', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData)
-      });
-      const data = await res.json();
+      await contactService.submitMessage(formData);
       
-      if (res.ok) {
-        setStatus({
-          loading: false,
-          message: 'Thank you! Your message was sent successfully. An auto-reply confirmation has been sent to your email.',
-          isError: false,
-          success: true
-        });
-        setFormData({ name: '', email: '', subject: '', message: '' });
-      } else {
-        setStatus({ loading: false, message: data.error || 'Something went wrong.', isError: true, success: false });
-      }
-    } catch (err) {
-      setStatus({ loading: false, message: 'Failed to establish connection to the server. Please try again later.', isError: true, success: false });
+      setStatus({
+        loading: false,
+        message: 'Thank you! Your message was sent successfully. An auto-reply confirmation has been sent to your email.',
+        isError: false,
+        success: true
+      });
+      setFormData({ name: '', email: '', subject: '', message: '' });
+    } catch (err: any) {
+      setStatus({ 
+        loading: false, 
+        message: err.message || 'Failed to establish connection to the server. Please try again later.', 
+        isError: true, 
+        success: false 
+      });
     }
   };
 

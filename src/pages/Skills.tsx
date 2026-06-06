@@ -48,7 +48,8 @@ export default function Skills() {
       levelLabel: "Advanced",
       description: "Extensively leveraged for machine learning tasks, data structures scripting, writing custom scripts, and integrating AI API pipelines.",
       projects: [
-        { name: "CogniVision", link: "/work" }
+        { name: "CogniVision", link: "/work" },
+        { name: "Object Detection", link: "/work" }
       ]
     },
     "C": {
@@ -145,7 +146,9 @@ export default function Skills() {
       progressColor: "stroke-indigo-500",
       levelLabel: "Advanced",
       description: "Exceptional analytical skills. Mastery in trees, graphs, dynamic programming, searches, and array optimization. Solved 700+ coding challenges.",
-      projects: []
+      projects: [
+        { name: "Object Detection", link: "/work" }
+      ]
     }
   };
 

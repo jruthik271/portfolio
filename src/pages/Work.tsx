@@ -41,7 +41,7 @@ export default function Work() {
     fetchGithubRepos();
   }, []);
 
-  const categories = ['All', 'Mobile', 'Backend'];
+  const categories = ['All', 'Work Experience', 'Freelance Projects'];
 
   // Match filters
   const filteredProjects = portfolioConfig.projects.filter(project => {
@@ -114,59 +114,117 @@ export default function Work() {
           </div>
         </div>
 
-        {/* Projects Cards Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-24">
+        {/* Projects Categorized Sections */}
+        <div className="mb-24">
           <AnimatePresence mode="popLayout">
-            {filteredProjects.map((project) => {
-              const Icon = project.icon;
-              const normalizedTitle = project.title.toLowerCase();
-              const stats = githubStats[normalizedTitle];
-              
-              return (
+            {[
+              {
+                id: 'Work Experience',
+                title: 'Work Experience',
+                badge: 'Professional 12-Month Internship',
+                bannerText: 'Developed during a 12-month intensive Full Stack Developer internship using Flutter at Technicalhub Pvt Limited. Worked closely with industry mentors to engineer production-ready roadside assistance and assistive mobile applications.',
+                projects: filteredProjects.filter(p => p.category === 'Work Experience')
+              },
+              {
+                id: 'Freelance Projects',
+                title: 'Freelance & Independent Projects',
+                badge: 'Freelance & Contracting',
+                bannerText: 'Client-driven contracts and AI applications engineered to resolve operational challenges, using Python, custom YOLOv8 models, and optimized Flutter layouts.',
+                projects: filteredProjects.filter(p => p.category === 'Freelance Projects')
+              }
+            ]
+              .filter(sec => (activeCategory === 'All' || activeCategory === sec.id) && sec.projects.length > 0)
+              .map((section) => (
                 <motion.div
-                  key={project.title}
+                  key={section.id}
                   layout
-                  initial={{ opacity: 0, scale: 0.9 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  exit={{ opacity: 0, scale: 0.9 }}
-                  transition={{ duration: 0.4, type: 'spring', stiffness: 200, damping: 22 }}
-                  onClick={() => setSelectedProject(project)}
-                  className="bg-card/45 border border-border/80 p-8 rounded-3xl group cursor-pointer transition-all duration-300 hover:bg-card-hover hover:border-[var(--color-accent)]/30 hover:-translate-y-1.5 shadow-xl relative overflow-hidden flex flex-col min-h-[340px]"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -20 }}
+                  transition={{ duration: 0.5 }}
+                  className="mb-16 last:mb-0 text-left"
                 >
-                  <div className={`absolute top-0 right-0 w-48 h-48 bg-gradient-to-br ${project.color} blur-[60px] opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-full translate-x-1/2 -translate-y-1/2`}></div>
-                  
-                  <div className="w-14 h-14 rounded-2xl bg-border/50 flex items-center justify-center mb-6 text-foreground group-hover:scale-110 transition-transform duration-300 group-hover:text-[var(--color-accent)] relative z-10 shadow-inner">
-                    <Icon size={24} />
-                  </div>
-                  
-                  <h3 className="text-2xl font-black mb-3 relative z-10 text-foreground group-hover:text-[var(--color-accent)] transition-colors">{project.title}</h3>
-                  <p className="text-foreground/50 text-sm leading-relaxed mb-6 relative z-10 line-clamp-3 flex-grow font-medium">{project.desc}</p>
-                  
-                  {/* Floating Tags */}
-                  <div className="flex flex-wrap gap-2 mb-6 relative z-10">
-                    {project.tags.slice(0, 3).map((tag, tIdx) => (
-                      <span key={tIdx} className="px-2.5 py-1 bg-foreground/5 border border-border/40 rounded-lg text-[9px] font-black tracking-wider uppercase text-foreground/50">
-                        {tag}
+                  {/* Category Section Banner Header */}
+                  <div className="relative overflow-hidden p-6 sm:p-8 rounded-3xl bg-gradient-to-r from-[var(--color-accent)]/10 to-transparent border border-border/80 mb-8 backdrop-blur-sm flex flex-col justify-between gap-4">
+                    <div className="absolute top-0 right-0 w-96 h-96 bg-[var(--color-accent)]/5 blur-[80px] rounded-full pointer-events-none"></div>
+                    <div className="space-y-2 max-w-3xl">
+                      <span className="px-3 py-1 bg-[var(--color-accent)]/10 border border-[var(--color-accent)]/20 text-[9px] font-black tracking-widest text-[var(--color-accent)] uppercase rounded-md">
+                        {section.badge}
                       </span>
-                    ))}
+                      <h3 className="text-xl sm:text-2xl font-black text-foreground uppercase tracking-tight">
+                        {section.title}
+                      </h3>
+                      <p className="text-xs sm:text-sm text-foreground/60 font-medium leading-relaxed">
+                        {section.bannerText}
+                      </p>
+                    </div>
                   </div>
 
-                  {/* Actions overlay footer */}
-                  <div className="flex items-center justify-between text-xs font-black relative z-10 w-full uppercase mt-auto pt-4 border-t border-border/30">
-                    {stats ? (
-                      <span className="flex items-center gap-1.5 text-foreground/45 group-hover:text-foreground transition-colors">
-                        <Star size={14} className="text-yellow-500" /> {stats.stargazers_count} Stars
-                      </span>
-                    ) : (
-                      <span className="text-foreground/45 group-hover:text-foreground transition-colors">View Details</span>
-                    )}
-                    <span className="text-[var(--color-accent)] opacity-0 group-hover:opacity-100 group-hover:translate-x-1 transition-all duration-300 flex items-center gap-1 shrink-0">
-                      Explore <ArrowUpRight size={14} />
-                    </span>
+                  {/* Grid of Projects in Section */}
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    {section.projects.map((project) => {
+                      const Icon = project.icon;
+                      const normalizedTitle = project.title.toLowerCase();
+                      const stats = githubStats[normalizedTitle];
+
+                      return (
+                        <motion.div
+                          key={project.title}
+                          layout
+                          initial={{ opacity: 0, scale: 0.95 }}
+                          animate={{ opacity: 1, scale: 1 }}
+                          exit={{ opacity: 0, scale: 0.95 }}
+                          transition={{ duration: 0.4, type: 'spring', stiffness: 200, damping: 22 }}
+                          onClick={() => setSelectedProject(project)}
+                          className="bg-card/45 border border-border/80 p-8 rounded-3xl group cursor-pointer transition-all duration-300 hover:bg-card-hover hover:border-[var(--color-accent)]/30 hover:-translate-y-1.5 shadow-xl relative overflow-hidden flex flex-col min-h-[340px]"
+                        >
+                          <div className={`absolute top-0 right-0 w-48 h-48 bg-gradient-to-br ${project.color} blur-[60px] opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-full translate-x-1/2 -translate-y-1/2`}></div>
+
+                          <div className="w-14 h-14 rounded-2xl bg-border/50 flex items-center justify-center mb-6 text-foreground group-hover:scale-110 transition-transform duration-300 group-hover:text-[var(--color-accent)] relative z-10 shadow-inner">
+                            <Icon size={24} />
+                          </div>
+
+                          {project.companyContext ? (
+                            <span className="px-2 py-0.5 bg-blue-500/10 border border-blue-500/20 rounded-md text-[8px] font-black tracking-widest uppercase text-blue-400 mb-4 block w-fit relative z-10">
+                              Internship @ Technical Hub
+                            </span>
+                          ) : (
+                            <span className="px-2 py-0.5 bg-amber-500/10 border border-amber-500/20 rounded-md text-[8px] font-black tracking-widest uppercase text-amber-400 mb-4 block w-fit relative z-10">
+                              Freelance Project
+                            </span>
+                          )}
+
+                          <h3 className="text-2xl font-black mb-3 relative z-10 text-foreground group-hover:text-[var(--color-accent)] transition-colors">{project.title}</h3>
+                          <p className="text-foreground/50 text-sm leading-relaxed mb-6 relative z-10 line-clamp-3 flex-grow font-medium">{project.desc}</p>
+
+                          {/* Floating Tags */}
+                          <div className="flex flex-wrap gap-2 mb-6 relative z-10">
+                            {project.tags.slice(0, 3).map((tag, tIdx) => (
+                              <span key={tIdx} className="px-2.5 py-1 bg-foreground/5 border border-border/40 rounded-lg text-[9px] font-black tracking-wider uppercase text-foreground/50">
+                                {tag}
+                              </span>
+                            ))}
+                          </div>
+
+                          {/* Actions overlay footer */}
+                          <div className="flex items-center justify-between text-xs font-black relative z-10 w-full uppercase mt-auto pt-4 border-t border-border/30">
+                            {stats ? (
+                              <span className="flex items-center gap-1.5 text-foreground/45 group-hover:text-foreground transition-colors">
+                                <Star size={14} className="text-yellow-500" /> {stats.stargazers_count} Stars
+                              </span>
+                            ) : (
+                              <span className="text-foreground/45 group-hover:text-foreground transition-colors">View Details</span>
+                            )}
+                            <span className="text-[var(--color-accent)] opacity-0 group-hover:opacity-100 group-hover:translate-x-1 transition-all duration-300 flex items-center gap-1 shrink-0">
+                              Explore <ArrowUpRight size={14} />
+                            </span>
+                          </div>
+                        </motion.div>
+                      );
+                    })}
                   </div>
                 </motion.div>
-              );
-            })}
+              ))}
           </AnimatePresence>
         </div>
 
@@ -247,15 +305,35 @@ export default function Work() {
                   <div className="w-12 h-12 rounded-xl bg-border/50 flex items-center justify-center text-[var(--color-accent)] shrink-0">
                     <selectedProject.icon size={20} />
                   </div>
-                  <div>
-                    <h3 className="text-2xl font-black text-foreground">{selectedProject.title}</h3>
-                    <span className="px-2.5 py-1 border border-border rounded-lg text-[9px] font-black tracking-wider uppercase text-[var(--color-accent)] bg-[var(--color-accent)]/10">
-                      {selectedProject.category}
-                    </span>
+                  <div className="text-left">
+                    <h3 className="text-2xl font-black text-foreground leading-tight">{selectedProject.title}</h3>
+                    <div className="flex flex-wrap items-center gap-2 mt-1.5">
+                      <span className="px-2.5 py-0.5 border border-border rounded-md text-[8px] font-black tracking-wider uppercase text-[var(--color-accent)] bg-[var(--color-accent)]/10">
+                        {selectedProject.category}
+                      </span>
+                      {selectedProject.companyContext ? (
+                        <span className="px-2.5 py-0.5 border border-blue-500/20 rounded-md text-[8px] font-black tracking-wider uppercase text-blue-400 bg-blue-500/10">
+                          Internship
+                        </span>
+                      ) : (
+                        <span className="px-2.5 py-0.5 border border-amber-500/20 rounded-md text-[8px] font-black tracking-wider uppercase text-amber-400 bg-amber-500/10">
+                          Freelance
+                        </span>
+                      )}
+                    </div>
                   </div>
                 </div>
 
-                <p className="text-foreground/60 text-sm sm:text-base leading-relaxed mb-6 font-medium">
+                {selectedProject.companyContext && (
+                  <div className="mb-6 p-4 rounded-2xl bg-blue-500/5 border border-blue-500/10 text-left">
+                    <span className="block text-[8px] font-black text-blue-400 uppercase tracking-widest mb-1">Professional Context</span>
+                    <p className="text-xs text-foreground/75 font-medium leading-relaxed">
+                      {selectedProject.companyContext}
+                    </p>
+                  </div>
+                )}
+
+                <p className="text-foreground/60 text-sm sm:text-base leading-relaxed mb-6 font-medium text-left">
                   {selectedProject.desc}
                 </p>
 

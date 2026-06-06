@@ -13,6 +13,17 @@ connectDB();
 
 // 2. Apply Security Middlewares
 app.use(helmet()); // Sets various HTTP headers for security
+
+// Fix compatibility between Express 5 and express-mongo-sanitize (Express 5 query is read-only by default)
+app.use((req, res, next) => {
+  Object.defineProperty(req, 'query', {
+    value: { ...req.query },
+    writable: true,
+    configurable: true
+  });
+  next();
+});
+
 app.use(mongoSanitize()); // Prevent NoSQL query injection attacks
 
 // 3. Configure Secure CORS

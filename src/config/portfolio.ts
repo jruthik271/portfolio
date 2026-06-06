@@ -1,4 +1,4 @@
-import { Wrench, Smartphone, Layers } from 'lucide-react';
+import { Wrench, Smartphone, Layers, Eye } from 'lucide-react';
 
 export interface Skill {
   name: string;
@@ -35,6 +35,7 @@ export interface ProjectItem {
   icon: any; // Lucide icon component
   color: string; // Tailwind background gradient values
   borderColor: string; // Tailwind border hover classes
+  companyContext?: string;
 }
 
 export interface SocialLinks {
@@ -169,18 +170,31 @@ export const portfolioConfig: PortfolioConfig = {
     {
       title: "CogniVision",
       desc: "Fully voice-navigable assistive mobile application using Flutter and Dart to restore environmental awareness and independent mobility for visually impaired individuals, powered by Gemini 2.0 Live and YOLOv8.",
-      category: "Mobile",
+      category: "Work Experience",
       tags: ["Flutter", "Dart", "Gemini 2.0", "YOLOv8", "TFLite"],
       demoUrl: "#",
       githubUrl: "https://github.com/jruthik271/cognivision",
       icon: Wrench,
       color: "from-blue-500/20 to-blue-500/0",
-      borderColor: "group-hover:border-blue-500/50"
+      borderColor: "group-hover:border-blue-500/50",
+      companyContext: "12-Month Full Stack Developer Internship at Technicalhub Pvt Limited"
+    },
+    {
+      title: "Mecha-Connect",
+      desc: "On-demand roadside assistance mobile platform using Flutter and Dart to streamline emergency support services for vehicle breakdowns and fuel shortages with real-time background GPS tracking.",
+      category: "Work Experience",
+      tags: ["Flutter", "Dart", "Google Maps API", "Geolocation"],
+      demoUrl: "#",
+      githubUrl: "https://github.com/jruthik271/mecha-connect",
+      icon: Layers,
+      color: "from-purple-500/20 to-purple-500/0",
+      borderColor: "group-hover:border-purple-500/50",
+      companyContext: "12-Month Full Stack Developer Internship at Technicalhub Pvt Limited"
     },
     {
       title: "WorkNow",
       desc: "Production-ready job search mobile application with dynamic location filtering, processing different job listings across multiple categories with real-time UI updates and ~99% responsive interaction rate.",
-      category: "Mobile",
+      category: "Freelance Projects",
       tags: ["Flutter 3.x", "Dart", "StatefulWidget", "Material Design"],
       demoUrl: "#",
       githubUrl: "https://github.com/jruthik271/worknow",
@@ -189,15 +203,15 @@ export const portfolioConfig: PortfolioConfig = {
       borderColor: "group-hover:border-green-500/50"
     },
     {
-      title: "Mecha-Connect",
-      desc: "On-demand roadside assistance mobile platform using Flutter and Dart to streamline emergency support services for vehicle breakdowns and fuel shortages with real-time background GPS tracking.",
-      category: "Mobile",
-      tags: ["Flutter", "Dart", "Google Maps API", "Geolocation"],
+      title: "Object Detection",
+      desc: "Real-time AI-powered object detection application built with Python, YOLOv8, and OpenCV. Implements high-confidence multi-class tracking optimized for edge devices.",
+      category: "Freelance Projects",
+      tags: ["Python", "YOLOv8", "OpenCV", "AI/ML", "PyTorch"],
       demoUrl: "#",
-      githubUrl: "https://github.com/jruthik271/mecha-connect",
-      icon: Layers,
-      color: "from-purple-500/20 to-purple-500/0",
-      borderColor: "group-hover:border-purple-500/50"
+      githubUrl: "https://github.com/jruthik271",
+      icon: Eye,
+      color: "from-yellow-500/20 to-yellow-500/0",
+      borderColor: "group-hover:border-yellow-500/50"
     }
   ]
 };

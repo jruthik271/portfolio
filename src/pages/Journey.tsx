@@ -14,9 +14,9 @@ export default function Journey() {
   const [activeTab, setActiveTab] = useState('leetcode');
   const [loading, setLoading] = useState(true);
   const [stats, setStats] = useState({
-    githubRepos: 6,
-    leetcodeSolved: 154,
-    downloadsCount: 0
+    githubRepos: 10,
+    leetcodeSolved: 164,
+    downloadsCount: 128
   });
 
   useEffect(() => {

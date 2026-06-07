@@ -13,8 +13,8 @@ interface APIStats {
 
 export default function Hero() {
   const [stats, setStats] = useState<APIStats>({
-    githubRepos: 3,
-    leetcodeSolved: 154
+    githubRepos: 10,
+    leetcodeSolved: 164
   });
   const [loading, setLoading] = useState(true);
 
@@ -26,8 +26,8 @@ export default function Hero() {
           leetcodeService.getStats().catch(() => null)
         ]);
 
-        let repoCount = 3;
-        let solved = 154;
+        let repoCount = 10;
+        let solved = 164;
 
         if (repos && Array.isArray(repos)) repoCount = repos.length;
         if (leetcode && leetcode.solvedTotal) solved = leetcode.solvedTotal;

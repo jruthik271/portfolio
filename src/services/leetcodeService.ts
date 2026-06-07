@@ -9,32 +9,32 @@ export interface LeetcodeStats {
 }
 
 const defaultStats: LeetcodeStats = {
-  solvedTotal: 155,
-  solvedEasy: 82,
-  solvedMedium: 62,
-  solvedHard: 11,
-  globalRank: 185000,
+  solvedTotal: 164,
+  solvedEasy: 143,
+  solvedMedium: 20,
+  solvedHard: 1,
+  globalRank: 978934,
   contestRating: 1480,
-  streak: 5
+  streak: 0
 };
 
 export const leetcodeService = {
   getStats: async (): Promise<LeetcodeStats> => {
     try {
-      const response = await fetch('https://leetcode-stats-api.herokuapp.com/jruthik271');
+      const response = await fetch('https://alfa-leetcode-api.onrender.com/jruthik271/solved');
       if (!response.ok) {
         throw new Error(`Leetcode API proxy returned status ${response.status}`);
       }
       const data = await response.json();
-      if (data && data.status === 'success') {
+      if (data && data.solvedProblem !== undefined) {
         return {
-          solvedTotal: data.totalSolved || defaultStats.solvedTotal,
-          solvedEasy: data.easySolved || defaultStats.solvedEasy,
-          solvedMedium: data.mediumSolved || defaultStats.solvedMedium,
-          solvedHard: data.hardSolved || defaultStats.solvedHard,
-          globalRank: data.ranking || defaultStats.globalRank,
-          contestRating: defaultStats.contestRating, // Default as proxy doesn't supply this
-          streak: data.contributionPoints || defaultStats.streak
+          solvedTotal: data.solvedProblem,
+          solvedEasy: data.easySolved !== undefined ? data.easySolved : defaultStats.solvedEasy,
+          solvedMedium: data.mediumSolved !== undefined ? data.mediumSolved : defaultStats.solvedMedium,
+          solvedHard: data.hardSolved !== undefined ? data.hardSolved : defaultStats.solvedHard,
+          globalRank: defaultStats.globalRank,
+          contestRating: defaultStats.contestRating,
+          streak: defaultStats.streak
         };
       }
       return defaultStats;

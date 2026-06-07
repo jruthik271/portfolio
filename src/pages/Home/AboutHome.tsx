@@ -14,8 +14,8 @@ export default function AboutHome() {
   ];
 
   const [stats, setStats] = useState({
-    githubRepos: 12,
-    leetcodeSolved: 155,
+    githubRepos: 10,
+    leetcodeSolved: 164,
     gfgSolved: 2
   });
   const [loading, setLoading] = useState(true);

@@ -17,7 +17,7 @@ const certUrls: Record<string, string> = {
 
 export default function About() {
   const [activeTab, setActiveTab] = useState<TabType>('achievements');
-  const [solvedCount, setSolvedCount] = useState(807);
+  const [solvedCount, setSolvedCount] = useState(816);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -28,7 +28,7 @@ export default function About() {
           geeksforgeeksService.getStats().catch(() => null)
         ]);
 
-        let leetcode = 155;
+        let leetcode = 164;
         let gfg = 2;
 
         if (leetcodeStats && leetcodeStats.solvedTotal) leetcode = leetcodeStats.solvedTotal;

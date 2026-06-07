@@ -1,4 +1,4 @@
-import { Wrench, Smartphone, Layers, Eye } from 'lucide-react';
+import { Wrench, Smartphone, Layers, Eye, Briefcase, Laptop } from 'lucide-react';
 
 export interface Skill {
   name: string;
@@ -38,6 +38,28 @@ export interface ProjectItem {
   companyContext?: string;
 }
 
+export interface WorkExperienceItem {
+  id: string;
+  company: string;
+  role: string;
+  duration: string;
+  location: string;
+  type: 'Internship' | 'Freelance' | 'Full-Time';
+  description: string;
+  skills: string[];
+  projects: {
+    title: string;
+    desc: string;
+    tags: string[];
+    githubUrl?: string;
+    demoUrl?: string;
+    highlights: string[];
+  }[];
+  achievements: string[];
+  icon: any;
+  color: string;
+}
+
 export interface SocialLinks {
   github: string;
   linkedin: string;
@@ -64,6 +86,7 @@ export interface PortfolioConfig {
   certifications: string[];
   skills: SkillCategory[];
   projects: ProjectItem[];
+  workExperienceHub: WorkExperienceItem[];
 }
 
 export const portfolioConfig: PortfolioConfig = {
@@ -212,6 +235,52 @@ export const portfolioConfig: PortfolioConfig = {
       icon: Eye,
       color: "from-yellow-500/20 to-yellow-500/0",
       borderColor: "group-hover:border-yellow-500/50"
+    }
+  ],
+  workExperienceHub: [
+    {
+      id: "technical-hub",
+      company: "Technical Hub",
+      role: "Full Stack Developer Intern (Flutter)",
+      duration: "12 months",
+      location: "On-site",
+      type: "Internship",
+      description: "Worked as a full stack developer intern building multiple mobile applications including AI comparison tools, event management systems, notification systems, resume builders, and infrastructure tracking solutions.",
+      skills: ["Flutter", "Dart", "Gemini 2.0", "YOLOv8", "MongoDB", "Firebase", "Google Maps API", "State Management", "Material Design", "REST APIs"],
+      icon: Briefcase,
+      color: "from-blue-500/20 to-blue-500/0",
+      projects: [
+        {
+          title: "CogniVision",
+          desc: "Fully voice-navigable assistive mobile application using Flutter and Dart to restore environmental awareness and independent mobility for visually impaired individuals, powered by Gemini 2.0 Live and YOLOv8.",
+          tags: ["Flutter", "Dart", "Gemini 2.0", "YOLOv8", "TFLite"],
+          githubUrl: "https://github.com/jruthik271/cognivision",
+          highlights: [
+            "Low-latency Gemini 2.0 Live API visual streaming integration",
+            "Optimized YOLOv8n and MobileFaceNet real-time spatial object tracking",
+            "On-device offline face recognition using TensorFlow Lite",
+            "Fully voice-navigable accessible UI layout"
+          ]
+        },
+        {
+          title: "Mecha-Connect",
+          desc: "On-demand roadside assistance mobile platform using Flutter and Dart to streamline emergency support services for vehicle breakdowns and fuel shortages with real-time background GPS tracking.",
+          tags: ["Flutter", "Dart", "Google Maps API", "Geolocation"],
+          githubUrl: "https://github.com/jruthik271/mecha-connect",
+          highlights: [
+            "On-demand breakdown mechanic matching dispatch system",
+            "Active background GPS location tracking with Google Maps integration",
+            "Real-time user-to-mechanic mapping and proximity calculations",
+            "Optimized background sync and local cache operations"
+          ]
+        }
+      ],
+      achievements: [
+        "Developed two production-grade mobile applications with Flutter",
+        "Integrated advanced AI models (Gemini 2.0 Live, YOLOv8) on mobile edge devices",
+        "Presented projects at ProjectSpace 8.0 and ISHIP to cross-functional teams",
+        "Collaborated under industry mentorship to deliver optimized logic flows"
+      ]
     }
   ]
 };

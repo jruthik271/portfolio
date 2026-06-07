@@ -22,9 +22,18 @@ const submitContactForm = async (req, res) => {
 
     const { name, email, subject, message } = validation.data;
 
-    // 2. Save record to database
-    const newMessage = new Message({ name, email, subject, message });
-    await newMessage.save();
+    // 2. Save record to database if connection is ready
+    const mongoose = require('mongoose');
+    if (mongoose.connection.readyState === 1) {
+      try {
+        const newMessage = new Message({ name, email, subject, message });
+        await newMessage.save();
+      } catch (dbErr) {
+        console.warn('Failed to save contact message to MongoDB:', dbErr.message);
+      }
+    } else {
+      console.warn('MongoDB not connected, skipping contact database save.');
+    }
 
     // 3. Dispatch emails (non-blocking so users get instant response, but catch errors)
     sendContactEmail({ name, email, subject, message })

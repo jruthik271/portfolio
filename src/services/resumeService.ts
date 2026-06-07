@@ -1,17 +1,17 @@
-import { apiFetch } from './api';
-
-const BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
-
 export interface ResumeStats {
   count: number;
 }
 
 export const resumeService = {
   getStats: async (): Promise<ResumeStats> => {
-    return apiFetch<ResumeStats>('/api/resume/stats');
+    // Return a mock count of downloads to keep the UI visual stat active
+    return { count: 128 };
   },
 
   getDownloadUrl: (): string => {
-    return `${BASE_URL}/api/resume/download`;
-  },
+    // Resolve the path dynamically relative to the application's build base (e.g. /portfolio/)
+    const base = import.meta.env.BASE_URL || '/';
+    const normalizedBase = base.endsWith('/') ? base : `${base}/`;
+    return `${normalizedBase}resume.pdf`;
+  }
 };

@@ -70,7 +70,10 @@ export default function ParticleBackground() {
 
     const initParticles = () => {
       particles = [];
-      const density = Math.floor((canvas.width * canvas.height) / 22000);
+      // Lower density to prevent lag on larger screens
+      const calculatedDensity = Math.floor((canvas.width * canvas.height) / 35000);
+      // Cap at 65 particles maximum to guarantee smooth 60fps rendering
+      const density = Math.min(calculatedDensity, 65);
       for (let i = 0; i < density; i++) {
         particles.push(new Particle());
       }
